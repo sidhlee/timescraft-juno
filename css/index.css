@@ -1,0 +1,17 @@
+body {
+  min-height: 100vh;
+}
+
+.app {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+.test {
+  color: palevioletred;
+}
+
+.hide {
+  display: none;
+}
