@@ -1,4 +1,4 @@
-const { getWrongAnswers } = require('../js/questions');
+import { getWrongAnswers } from '../js/questions';
 
 it('should work', () => {
   expect(1).toBe(1);
