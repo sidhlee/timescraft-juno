@@ -1,4 +1,20 @@
 import _shuffle from './shuffle.js';
+import * as tables from './js/questions-data.js';
+
+const TABLES = [...Array(9)].map((v, i) => tables[`table${i + 2}`]);
+let state = {
+  tables: TABLES,
+  currentIndex: 0,
+  currentTable: null,
+  currentQuestions: null,
+};
+
+function setState(newState) {
+  state = {
+    ...state,
+    ...newState,
+  };
+}
 
 export function selectAnswer() {}
 

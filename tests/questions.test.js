@@ -11,8 +11,6 @@ describe('getWrongAnswers', () => {
 
   it('should now get negative values', () => {
     const wrongAnswers = getWrongAnswers(1, 10);
-    wrongAnswers.forEach(a => {
-      expect(a).
-    })
-  })
+    wrongAnswers.forEach((a) => {});
+  });
 });

@@ -1,5 +1,5 @@
-import * as tables from './js/questions-data.js';
 import {
+  setState,
   getAnswers,
   getWrongAnswers,
   getQuestions,
@@ -13,21 +13,6 @@ import {
 //   resize: true,
 //   useWorker: true,
 // })({ particleCount: 200, spread: 200 });
-
-const TABLES = [...Array(9)].map((v, i) => tables[`table${i + 2}`]);
-let state = {
-  tables: TABLES,
-  currentIndex: 0,
-  currentTable: null,
-  currentQuestions: null,
-};
-
-function setState(newState) {
-  state = {
-    ...state,
-    ...newState,
-  };
-}
 
 function startGame() {
   $('#start-btn').addClass('hide');
