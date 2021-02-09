@@ -1,48 +1,60 @@
 import _shuffle from './shuffle.js';
 import state, { setState, TABLES } from './state.js';
+import { showResult } from './result.js';
 
 export function setNextQuestion() {
+  if (state.currentIndex >= state.currentQuestions.length) {
+    return showResult();
+  }
+  console.log('setNextQuestion');
   resetAnswers();
-  enableAllButtons();
   const { currentQuestions: questions, currentIndex: i } = state;
   showQuestion(questions[i]);
   const answers = getAnswers(questions[i]);
   showAnswers(answers);
-  setState({ currentIndex: i + 1 });
+  enableAllButtons();
+  console.log(state);
 }
 
 const defaultOptions = {
   length: 9,
   shuffle: true,
 };
+
+/**
+ * Select questions from table and return them.
+ * @param {{length: number, shuffle: boolean, table: number}} param0
+ * @returns {{ table: number, by: number, difficulty: number, tried:number, lastTried: Date, lastCorrect: Date }[]}
+ */
 export function getQuestions({ length, shuffle, table } = defaultOptions) {
-  let selected;
+  let questions;
 
   if (table < 2 || table > 9) {
     throw new Error('invalid table');
   }
 
   if (table) {
-    selected = TABLES[table];
+    questions = TABLES[table];
     setState({ currentTable: table });
   } else {
     const randomTable = Math.floor(Math.random() * 8);
-    selected = TABLES[randomTable];
+    questions = TABLES[randomTable];
     setState({ currentTable: randomTable });
   }
 
   if (shuffle) {
-    selected = _shuffle(selected);
+    questions = _shuffle(questions);
   }
 
   if (length > 0) {
-    selected = selected.slice(0, length);
+    questions = questions.slice(0, length);
   }
 
-  return selected;
+  return questions;
 }
 
 export function getAnswers(question, size = 4) {
+  console.log('getAnswers');
   const { table, by } = question;
   const correctAnswer = table * by;
   const wrongAnswers = getWrongAnswers(question, size - 1);
@@ -79,46 +91,30 @@ export function enableAllButtons() {
 }
 
 //=====================================
-// Event Handlers
-//=====================================
-
-/**
- * Select answer to move to next question if correct
- * @param {number} delay - delay until showing next question
- */
-export function handleAnswerButtonClick(e, delay = 500) {
-  const correct = $(this).attr('correct');
-  if (correct) {
-    $(this).removeClass('btn-outline-secondary').addClass('btn-success');
-    // disable all buttons before going to next question
-    $('button').attr('disabled', 'true');
-    setTimeout(() => {
-      setNextQuestion();
-    }, delay);
-  } else {
-    $(this)
-      .removeClass('btn-outline-secondary')
-      .addClass('btn-danger')
-      .attr('disabled', 'true');
-  }
-}
-
-//=====================================
 // Renderers
 //=====================================
 
 export function showQuestion(question) {
+  console.log(question);
   const questionString = `${question.table} x ${question.by} = ?`;
-  $('#question').text(questionString);
+  $('#question')
+    .text(questionString)
+    .on('animationend', function () {
+      $(this).removeClass(
+        'animate__animated animate__fadeInLeft animate__faster'
+      );
+    })
+    .addClass('animate__animated animate__fadeInLeft animate__faster');
   $('#question-container').removeClass('hide');
 }
 
 export function showAnswers(answers) {
-  $('#answer-buttons button').each((i, button) => {
-    $(button).text(answers[i].text);
-    if (answers[i].correct) {
-      $(button).attr('correct', true);
-    }
-    $(button).on('click', handleAnswerButtonClick);
-  });
+  $('#answer-buttons')
+    .children()
+    .each((i, button) => {
+      $(button).text(answers[i].text);
+      if (answers[i].correct) {
+        $(button).attr('correct', true);
+      }
+    });
 }

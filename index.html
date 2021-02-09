@@ -7,14 +7,15 @@
   <title>Quiz App</title>
   <link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 </head>
 
 <body>
   <div class="app">
-    <div class="container">
+    <main id="main" class="container">
       <div class="card p-3 mx-auto col-md-6 col-lg-4 shadow">
         <div id="question-container" class="hide w-90">
-          <div id="question" class="question text-center">Question</div>
+          <h2 id="question" class="question text-center mb-3">Question</h2>
           <div id="answer-buttons" class="d-grid gap-2">
             <button class="btn btn-outline-secondary">Answer 1</button>
             <button class="btn btn-outline-secondary">Answer 2</button>
@@ -31,8 +32,17 @@
           </div>
         </div>
       </div>
-    </div>
+    </main>
+    <!-- Result-modal -->
+    <aside id="result" class="hide card p-3 mx-auto col-md-6 col-lg-4 shadow">
+      <h2 class="result__score text-center">Score: <span></span></h2>
+      <ul class="result__details list-group"></ul>
+      <button class="btn btn-primary mt-3">Try Again</button>
+    </aside>
   </div>
+
+
+
 
   <!-- CDNs -->
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"
