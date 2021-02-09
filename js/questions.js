@@ -1,7 +1,8 @@
 import _shuffle from './shuffle.js';
-import * as tables from './js/questions-data.js';
+import * as tables from './questions-data.js';
 
 const TABLES = [...Array(9)].map((v, i) => tables[`table${i + 2}`]);
+
 let state = {
   tables: TABLES,
   currentIndex: 0,
@@ -9,14 +10,12 @@ let state = {
   currentQuestions: null,
 };
 
-function setState(newState) {
+export function setState(newState) {
   state = {
     ...state,
     ...newState,
   };
 }
-
-export function selectAnswer() {}
 
 const defaultOptions = {
   length: 9,
@@ -52,7 +51,30 @@ export function getQuestions({ length, shuffle, table } = defaultOptions) {
 export function setNextQuestion() {
   const { currentQuestions: questions, currentIndex: i } = state;
   showQuestion(questions[i]);
+  const answers = getAnswers(questions[i]);
+  setAnswers(answers);
   setState({ currentIndex: i + 1 });
+}
+
+export function setAnswers(answers) {
+  $('#answer-buttons button').each((i, button) => {
+    $(button).text(answers[i].text);
+    if (answers[i].correct) {
+      $(button).attr('correct', true);
+    }
+    $(button).on('click', selectAnswer);
+  });
+}
+
+export function selectAnswer(e) {
+  const correct = $(this).attr('correct');
+  if (correct) {
+    $(this).removeClass('btn-outline-secondary');
+    $(this).addClass('btn-success');
+  } else {
+    $(this).removeClass('btn-outline-secondary');
+    $(this).addClass('btn-danger');
+  }
 }
 
 export function showQuestion(question) {
@@ -61,28 +83,23 @@ export function showQuestion(question) {
   $('#question-container').removeClass('hide');
 }
 
-export function getAnswers(question, howMany = 4) {
+export function getAnswers(question, size = 4) {
   const { table, by } = question;
   const correctAnswer = table * by;
-  const answers = getWrongAnswers(correctAnswer, howMany - 1);
-  answers.concat({ text: correctAnswer, correct: true });
-  return answers;
+  const wrongAnswers = getWrongAnswers(question, size - 1);
+
+  const answers = wrongAnswers.concat({ text: correctAnswer, correct: true });
+
+  return _shuffle(answers);
 }
 
-export function getWrongAnswers(correctAnswer, howMany = 1) {
-  let i = 0;
-  const wrongAnswers = [];
-  while (i < howMany) {
-    const randomNumberFromOneToTen = Math.floor(Math.random() * 10 + 1);
-    const oneOrMinusOne = Math.random() > 0.5 ? 1 : -1;
-    const wrongAnswer = randomNumberFromOneToTen * oneOrMinusOne;
+export function getWrongAnswers(answer, size = 3) {
+  const wrongAnswers = [2, 3, 4, 5, 6, 7, 8, 9]
+    .filter((by) => by !== answer.by)
+    .map((by) => ({
+      text: answer.table * by,
+      correct: false,
+    }));
 
-    if (wrongAnswers.find((n) => n === wrongAnswer)) {
-      continue;
-    } else {
-      wrongAnswers.push(wrongAnswer);
-      i++;
-    }
-  }
-  return wrongAnswers;
+  return _shuffle(wrongAnswers).slice(0, size);
 }
