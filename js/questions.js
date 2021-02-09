@@ -49,14 +49,17 @@ export function getQuestions({ length, shuffle, table } = defaultOptions) {
 }
 
 export function setNextQuestion() {
+  resetAnswers();
   const { currentQuestions: questions, currentIndex: i } = state;
   showQuestion(questions[i]);
   const answers = getAnswers(questions[i]);
-  setAnswers(answers);
+  showAnswers(answers);
   setState({ currentIndex: i + 1 });
 }
 
-export function setAnswers(answers) {
+export function resetAnswers() {}
+
+export function showAnswers(answers) {
   $('#answer-buttons button').each((i, button) => {
     $(button).text(answers[i].text);
     if (answers[i].correct) {
@@ -87,7 +90,6 @@ export function getAnswers(question, size = 4) {
   const { table, by } = question;
   const correctAnswer = table * by;
   const wrongAnswers = getWrongAnswers(question, size - 1);
-
   const answers = wrongAnswers.concat({ text: correctAnswer, correct: true });
 
   return _shuffle(answers);
