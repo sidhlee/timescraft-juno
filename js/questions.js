@@ -1,20 +1,14 @@
 import _shuffle from './shuffle.js';
-import * as tables from './questions-data.js';
+import state, { setState, TABLES } from './state.js';
 
-const TABLES = [...Array(9)].map((v, i) => tables[`table${i + 2}`]);
-
-let state = {
-  tables: TABLES,
-  currentIndex: 0,
-  currentTable: null,
-  currentQuestions: null,
-};
-
-export function setState(newState) {
-  state = {
-    ...state,
-    ...newState,
-  };
+export function setNextQuestion() {
+  resetAnswers();
+  enableAllButtons();
+  const { currentQuestions: questions, currentIndex: i } = state;
+  showQuestion(questions[i]);
+  const answers = getAnswers(questions[i]);
+  showAnswers(answers);
+  setState({ currentIndex: i + 1 });
 }
 
 const defaultOptions = {
@@ -48,44 +42,6 @@ export function getQuestions({ length, shuffle, table } = defaultOptions) {
   return selected;
 }
 
-export function setNextQuestion() {
-  resetAnswers();
-  const { currentQuestions: questions, currentIndex: i } = state;
-  showQuestion(questions[i]);
-  const answers = getAnswers(questions[i]);
-  showAnswers(answers);
-  setState({ currentIndex: i + 1 });
-}
-
-export function resetAnswers() {}
-
-export function showAnswers(answers) {
-  $('#answer-buttons button').each((i, button) => {
-    $(button).text(answers[i].text);
-    if (answers[i].correct) {
-      $(button).attr('correct', true);
-    }
-    $(button).on('click', selectAnswer);
-  });
-}
-
-export function selectAnswer(e) {
-  const correct = $(this).attr('correct');
-  if (correct) {
-    $(this).removeClass('btn-outline-secondary');
-    $(this).addClass('btn-success');
-  } else {
-    $(this).removeClass('btn-outline-secondary');
-    $(this).addClass('btn-danger');
-  }
-}
-
-export function showQuestion(question) {
-  const questionString = `${question.table} x ${question.by} = ?`;
-  $('#question').text(questionString);
-  $('#question-container').removeClass('hide');
-}
-
 export function getAnswers(question, size = 4) {
   const { table, by } = question;
   const correctAnswer = table * by;
@@ -104,4 +60,65 @@ export function getWrongAnswers(answer, size = 3) {
     }));
 
   return _shuffle(wrongAnswers).slice(0, size);
+}
+
+export function resetAnswers() {
+  $('#answer-buttons')
+    .children()
+    .each((i, btn) => {
+      $(btn)
+        .removeClass('btn-success')
+        .removeClass('btn-danger')
+        .addClass('btn-outline-secondary')
+        .removeAttr('correct');
+    });
+}
+
+export function enableAllButtons() {
+  $('button').removeAttr('disabled');
+}
+
+//=====================================
+// Event Handlers
+//=====================================
+
+/**
+ * Select answer to move to next question if correct
+ * @param {number} delay - delay until showing next question
+ */
+export function handleAnswerButtonClick(e, delay = 500) {
+  const correct = $(this).attr('correct');
+  if (correct) {
+    $(this).removeClass('btn-outline-secondary').addClass('btn-success');
+    // disable all buttons before going to next question
+    $('button').attr('disabled', 'true');
+    setTimeout(() => {
+      setNextQuestion();
+    }, delay);
+  } else {
+    $(this)
+      .removeClass('btn-outline-secondary')
+      .addClass('btn-danger')
+      .attr('disabled', 'true');
+  }
+}
+
+//=====================================
+// Renderers
+//=====================================
+
+export function showQuestion(question) {
+  const questionString = `${question.table} x ${question.by} = ?`;
+  $('#question').text(questionString);
+  $('#question-container').removeClass('hide');
+}
+
+export function showAnswers(answers) {
+  $('#answer-buttons button').each((i, button) => {
+    $(button).text(answers[i].text);
+    if (answers[i].correct) {
+      $(button).attr('correct', true);
+    }
+    $(button).on('click', handleAnswerButtonClick);
+  });
 }
