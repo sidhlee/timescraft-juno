@@ -7,9 +7,9 @@ export function showResult() {
   $('.result__score > span').text(score);
   $('.result__details').append(details);
 
-  $('#main').addClass('hide');
+  $('#main').addClass('hidden');
   $('#result')
-    .removeClass('hide')
+    .removeClass('hidden')
     .addClass('animate__animated animate__fadeIn');
 }
 

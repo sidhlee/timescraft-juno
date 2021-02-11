@@ -4,8 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz App</title>
-  <link rel="stylesheet" href="css/bootstrap.css">
+  <title>TimesCraft</title>
   <link rel="stylesheet" href="css/index.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 </head>
@@ -13,32 +12,135 @@
 <body>
   <div class="app">
     <main id="main" class="container">
-      <div class="card p-3 mx-auto col-md-6 col-lg-4 shadow">
-        <div id="question-container" class="hide w-90">
-          <h2 id="question" class="question text-center mb-3">Question</h2>
-          <div id="answer-buttons" class="d-grid gap-2">
-            <button class="btn btn-outline-secondary">Answer 1</button>
-            <button class="btn btn-outline-secondary">Answer 2</button>
-            <button class="btn btn-outline-secondary">Answer 3</button>
-            <button class="btn btn-outline-secondary">Answer 4</button>
+      <!-- Menu Button -->
+      <button class="menu-btn">
+        <span></span>
+      </button>
+
+      <!-- Start Screen -->
+      <section class="sc-start hidden">
+        <div class="title">
+          <div class="title__main">
+            <img src="/assets/images/logo-timescraft.png" alt="TimesCraft">
+          </div>
+          <div class="title__sub">
+            <img src="/assets/images/logo-for-ethan.png" alt="For Ethan">
           </div>
         </div>
-        <div class="controls row mt-3">
-          <div class="">
-            <button id="start-btn" class="btn btn-primary form-control">Start</button>
+        <div class="dashboard">
+          <ul>
+            <li class="dashboard__item--score">
+              <p>Score <span></span></p>
+            </li>
+            <li class="dashboard__item--level">
+              <p>Score <span></span></p>
+            </li>
+          </ul>
+        </div>
+        <div class="table-select">
+          <div class="row">
+            <button class="btn">2</button>
+            <button class="btn">3</button>
+            <button class="btn">4</button>
+            <button class="btn">5</button>
           </div>
-          <div class="">
-            <button id="next-btn" class="btn btn-outline-primary form-control hide">Next</button>
+          <div class="row">
+            <button class="btn">6</button>
+            <button class="btn">7</button>
+            <button class="btn">8</button>
+            <button class="btn">9</button>
+          </div>
+          <div class="row">
+            <button class="btn">Shuffle!</button>
           </div>
         </div>
-      </div>
+      </section>
+
+      <!-- Play Screen -->
+      <section class="sc-play">
+
+        <header class="">
+          <div class="logo"><img src="/assets/images/logo-timescraft.png" alt="TimesCraft"></div>
+        </header>
+
+        <div class="question">
+          <div class="mob"></div>
+          <div class="speech-bubble">
+            <p></p>
+          </div>
+        </div>
+
+        <div class="hud">
+          <div class="hud__life"></div>
+          <div class="hud__time"></div>
+          <div class="hud__progress"></div>
+        </div>
+
+        <div class="answer-buttons">
+          <button class="btn">Answer 1</button>
+          <button class="btn">Answer 2</button>
+          <button class="btn">Answer 3</button>
+          <button class="btn">Answer 4</button>
+        </div>
+      </section>
+
     </main>
-    <!-- Result-modal -->
-    <aside id="result" class="hide card p-3 mx-auto col-md-6 col-lg-4 shadow">
-      <h2 class="result__score text-center">Score: <span></span></h2>
-      <ul class="result__details list-group"></ul>
-      <button class="btn btn-primary mt-3">Try Again</button>
+
+    <!-- Results-Overlay -->
+    <aside id="results" class="hidden">
+      <div class="results--score">
+        <header><img src="/assets/images/logo-clear.png" alt="Clear!"></header>
+        <table class="score">
+          <thead class="sr-only">
+            <tr>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="results__time mute">
+              <td>Clear Time</td>
+              <td><span>48</span>Seconds</td>
+            </tr>
+            <tr class="results__correct">
+              <td>Correct</td>
+              <td><span>7</span></td>
+            </tr>
+            <tr class="results__missed mute">
+              <td>Missed</td>
+              <td><span>2</span></td>
+            </tr>
+            <tr class="results__accuracy">
+              <td>Accuracy</td>
+              <td><span>78</span>%</td>
+            </tr>
+            <tr class="results__difficulty mute">
+              <td>Difficulty</td>
+              <td><span>83</span></td>
+            </tr>
+            <tr class="results__total">
+              <td>Total</td>
+              <td><span>+1400</span></td>
+            </tr>
+            <tr class="results__next-level">
+              <td>Next Level</td>
+              <td><span>1200</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="results--died hidden">
+        <h2>You died!</h2>
+        <p>Score: <span>0</span></p>
+      </div>
+
+      <div class="results__buttons">
+        <button class="btn btn-again">Try Again!</button>
+        <button class="btn btn-main">Main</button>
+      </div>
     </aside>
+
+
   </div>
 
 

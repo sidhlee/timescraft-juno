@@ -105,7 +105,7 @@ export function showQuestion(question) {
       );
     })
     .addClass('animate__animated animate__fadeInLeft animate__faster');
-  $('#question-container').removeClass('hide');
+  $('#question-container').removeClass('hidden');
 }
 
 export function showAnswers(answers) {

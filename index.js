@@ -43,8 +43,8 @@ export function handleAnswerButtonClick(e, delay = 500) {
 }
 
 function handleStartButtonClick() {
-  $('#start-btn').addClass('hide');
-  $('#next-btn').removeClass('hide');
+  $('#start-btn').addClass('hidden');
+  $('#next-btn').removeClass('hidden');
   // update state with randomized questions
   const questions = getQuestions();
   setState({ currentQuestions: questions });
@@ -53,8 +53,10 @@ function handleStartButtonClick() {
 }
 
 function handleTryAgainClick() {
-  $('#result').addClass('hide');
-  $('#main').removeClass('hide').addClass('animate__animated animate__fadeIn');
+  $('#result').addClass('hidden');
+  $('#main')
+    .removeClass('hidden')
+    .addClass('animate__animated animate__fadeIn');
   // TODO: reset state & button disable
   // TODO: add start page -> set table or shuffle
   // TODO: save result to the localStorage
