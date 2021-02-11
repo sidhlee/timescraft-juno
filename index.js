@@ -1,13 +1,6 @@
 import { setNextQuestion, getQuestions } from './js/questions.js';
 import state, { setState } from './js/state.js';
 
-// import confetti from 'canvas-confetti';
-
-// confetti.create(document.getElementById('canvas'), {
-//   resize: true,
-//   useWorker: true,
-// })({ particleCount: 200, spread: 200 });
-
 //=====================================
 // Event Handlers
 //=====================================
@@ -23,6 +16,7 @@ export function handleAnswerButtonClick(e, delay = 500) {
   // save selected answer
   updatedCurrentQuestions[currentIndex].lastAnswer = +e.target.textContent;
 
+  //TODO: store ISOString in state. parse them as needed
   // Update lastTried state
   const lastTried = new Date();
   updatedCurrentQuestions[currentIndex].lastTried = lastTried;
@@ -37,7 +31,7 @@ export function handleAnswerButtonClick(e, delay = 500) {
   }
 
   // disable all buttons before going to next question
-  $('button').attr('disabled', 'true');
+  $('#answer-buttons > button').add('#next-btn').attr('disabled', 'true');
   setTimeout(() => {
     setNextQuestion();
   }, delay);
@@ -61,6 +55,11 @@ function handleStartButtonClick() {
 function handleTryAgainClick() {
   $('#result').addClass('hide');
   $('#main').removeClass('hide').addClass('animate__animated animate__fadeIn');
+  // TODO: reset state & button disable
+  // TODO: add start page -> set table or shuffle
+  // TODO: save result to the localStorage
+  // TODO: load result from localStorage on mount
+  // TODO: add stats page
 }
 
 $('#start-btn').on('click', handleStartButtonClick);

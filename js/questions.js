@@ -1,5 +1,5 @@
 import _shuffle from './shuffle.js';
-import state, { setState, TABLES } from './state.js';
+import state, { setState } from './state.js';
 import { showResult } from './result.js';
 
 export function setNextQuestion() {
@@ -34,11 +34,11 @@ export function getQuestions({ length, shuffle, table } = defaultOptions) {
   }
 
   if (table) {
-    questions = TABLES[table];
+    questions = state.tables[table];
     setState({ currentTable: table });
   } else {
     const randomTable = Math.floor(Math.random() * 8);
-    questions = TABLES[randomTable];
+    questions = state.tables[randomTable];
     setState({ currentTable: randomTable });
   }
 

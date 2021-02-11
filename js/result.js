@@ -23,6 +23,7 @@ function getResultDetails() {
     const classes = `list-group-item ${
       correct ? 'list-group-item-success' : 'list-group-item-danger'
     }`;
+
     let text;
     if (correct) {
       text = `${table} x ${by} = ${lastAnswer} ${'   '}✅`;
@@ -59,5 +60,6 @@ function getScore() {
 
 function wasCorrect(question) {
   const { lastTried, lastCorrect } = question;
+  console.log({ lastTried, lastCorrect });
   return lastTried?.getTime() === lastCorrect?.getTime();
 }
