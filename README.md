@@ -1,6 +1,6 @@
-# Times Buddy
+# TimesCraft (for Ethan)
 
-A quiz app for learning times table. Built with jQuery
+A multiplication quiz app for my son who loves Minecraft.
 
 ## What I Learned
 
