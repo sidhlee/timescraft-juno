@@ -1,5 +1,5 @@
+// 2, 3, 4, 5, 6, 7, 8, 9
 const difficultyArrays = [
-  //  2, 3, 4, 5, 6, 7, 8, 9
   [1, 1, 2, 2, 2, 3, 3, 3], // 2
   [1, 1, 2, 3, 3, 4, 4, 4], // 3
   [1, 2, 2, 3, 4, 4, 4, 5], // 4
@@ -10,7 +10,6 @@ const difficultyArrays = [
   [3, 3, 3, 3, 6, 7, 7, 7], // 9
 ];
 
-// export const TABLES = [...Array(9)].map((v, i) => tables[`table${i + 2}`]);
 const TABLES = getTables(difficultyArrays);
 
 const state = {
