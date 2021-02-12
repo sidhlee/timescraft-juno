@@ -73,6 +73,7 @@ button {
 
 .hidden {
   display: none;
+  opacity: 0;
 }
 
 .zero {
@@ -122,13 +123,15 @@ button {
 
 .app {
   height: 100%;
+  overflow: hidden;
+  padding: 7vh 0;
+  background-image: url('/assets/images/bg.png');
+  background-size: cover;
+  background-position: 30%;
 }
 
 .app-container {
   height: 100%;
-  background-image: url('/assets/images/bg.png');
-  background-size: cover;
-  background-position: 30%;
 }
 
 /* ======================================
@@ -136,11 +139,13 @@ button {
 ** ==================================== */
 
 .sc-start {
+  position: absolute;
+  top: 0;
+  left: 0;
   height: 100%;
   display: grid;
   place-items: center;
   grid-template-rows: 1fr auto minmax(10rem, 30%);
-  padding: 7vh 0;
 
   .title {
     display: flex;
@@ -192,4 +197,7 @@ button {
       }
     }
   }
+}
+
+.sc-play {
 }
