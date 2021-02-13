@@ -433,9 +433,14 @@ button {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
     .results--score {
       height: 100%;
       display: grid;
+      header {
+        display: grid;
+        place-items: center;
+      }
 
       .table-wrapper {
         table {

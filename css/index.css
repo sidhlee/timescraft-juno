@@ -535,6 +535,12 @@ button {
   display: grid;
 }
 
+.overlay .overlay-content .results--score header {
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+}
+
 .overlay .overlay-content .results--score .table-wrapper table {
   display: inline-block;
   width: 100%;
