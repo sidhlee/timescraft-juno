@@ -1,8 +1,16 @@
+$desktop: 1200px;
+$wide: 1600px;
+
 :root {
   /* Colors */
   --clr-white: #efefef;
-  --clr-black-alpha: rgba(0, 0, 0, 70%);
+  --clr-black-alpha: rgba(0, 0, 0, 80%);
   --clr-red-alpha: rgba(75, 10, 10, 80%);
+
+  --text-main: white;
+  --text-inverse: black;
+  --text-mute: #bebebe;
+  --text-yellow: #ffff00;
 
   --menu-btn-color: #555;
 
@@ -13,11 +21,21 @@
 
   /* Layouts */
   --header-height-mobile: 5vh;
+  --header-height-desktop: calc(5vh + 2.5vw);
+
+  /* z-index */
+  --z-overlay: 500;
 }
 
 html {
   box-sizing: border-box;
   font-size: 112.5%;
+  @media (min-width: $desktop) {
+    font-size: 125%;
+  }
+  @media (min-width: $wide) {
+    font-size: 160%;
+  }
 }
 *,
 *::before,
@@ -28,7 +46,7 @@ html {
 body {
   margin: 0;
   font-family: 'VT323', monospace;
-  color: var(--clr-white);
+  color: var(--text-main);
   height: 100vh;
 }
 
@@ -83,7 +101,7 @@ button {
 ** ==================================== */
 
 .hidden {
-  display: none;
+  display: none !important;
   opacity: 0;
 }
 
@@ -94,6 +112,20 @@ button {
 .row {
   width: 100%;
   display: flex;
+}
+
+.sr-only:not(:focus):not(:active) {
+  overflow: hidden;
+  white-space: nowrap;
+  position: absolute;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  width: 1px;
+}
+
+.mute {
+  color: var(--text-mute);
 }
 
 /* ======================================
@@ -165,6 +197,7 @@ button {
   display: grid;
   place-items: center;
   background-color: #fff;
+  color: var(--text-inverse);
   border: 2px solid #333;
   border-radius: 12px;
   padding: 1em;
@@ -197,7 +230,6 @@ button {
 .app {
   height: 100%;
   overflow: hidden;
-  padding: 6vh 0;
   background-image: url('/assets/images/bg.png');
   background-size: cover;
   background-position: 30%;
@@ -206,6 +238,8 @@ button {
 .app-container {
   position: relative;
   height: 100%;
+  max-width: 600px;
+  margin: auto;
 }
 
 .page {
@@ -213,29 +247,40 @@ button {
   top: 0;
   left: 0;
   height: 100%;
-  padding: 0 1em;
+  padding: 6vh 1em;
 }
 
 /* ======================================
 ** Partials
 ** ==================================== */
 
+/* Start Screen */
 .sc-start {
   display: grid;
   place-items: center;
   grid-template-rows: 1fr auto minmax(10rem, 30%);
 
   .title {
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 0 10px;
     &__main {
-      height: 13vh;
+      margin-top: 1.5rem;
+      height: 80%;
+      max-height: 140px;
       margin-bottom: 0.5em;
+      img {
+        height: 100%;
+        object-fit: fill;
+      }
     }
     &__sub {
+      img {
+        margin: auto;
+      }
       height: 5vh;
       width: 80%;
     }
@@ -277,9 +322,13 @@ button {
   }
 }
 
+/* Play Screen */
 .sc-play {
   display: grid;
   grid-template-rows: var(--header-height-mobile) 1.5fr 4rem 1fr;
+  @media (min-width: $desktop) {
+    grid-template-rows: var(--header-height-desktop) 1.5fr 4rem 1fr;
+  }
 
   .header {
     place-self: center;
@@ -288,6 +337,9 @@ button {
     height: 100%;
     .logo {
       height: 100%;
+      img {
+        margin: auto;
+      }
     }
   }
 
@@ -317,7 +369,6 @@ button {
     .speech-bubble {
       grid-column: 2 / 4;
       grid-row: 1 / 2;
-      color: black;
     }
   }
 
@@ -357,5 +408,118 @@ button {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     gap: 4vh;
+  }
+}
+
+/* Results Overlay */
+
+.overlay {
+  position: absolute;
+  z-index: var(--z-overlay);
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding-left: 8vw;
+  padding-right: 8vw;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  .overlay-content {
+    width: 100%;
+    max-width: 800px;
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .results--score {
+      height: 100%;
+      display: grid;
+
+      .table-wrapper {
+        table {
+          display: inline-block;
+          tbody {
+            display: inline-block;
+            width: 100%;
+            tr {
+              width: 100%;
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 0.75em;
+            }
+          }
+          width: 100%;
+          height: 80%;
+          max-height: 20em;
+          td,
+          span {
+            font-size: var(--fz-sm);
+          }
+          td {
+            padding: 0.5 0;
+          }
+          .results--score__total {
+            td,
+            span {
+              font-size: var(--fz-lg);
+            }
+          }
+          tr {
+            td:last-child {
+              text-align: right;
+            }
+          }
+        }
+      }
+    }
+
+    .results--died {
+      display: grid;
+      place-items: center;
+      .message {
+        text-align: center;
+      }
+
+      h2 {
+        font-size: var(--fz-lg);
+      }
+      p,
+      span {
+        font-size: var(--fz-sm);
+      }
+      span {
+        color: var(--text-yellow);
+      }
+      height: 100%;
+    }
+
+    .results__buttons {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      button:not(:last-of-type) {
+        margin-bottom: 0.5em;
+      }
+    }
+  }
+  /* Backdrop */
+  &:before {
+    content: '';
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    /* underneath overlay, but still on top of app background
+      because this backdrop is nested inside overlay
+      which has a higher stacking context than statically positioned .app element*/
+    z-index: -1;
+    background-color: var(--clr-black-alpha);
+  }
+  &.danger:before {
+    background-color: var(--clr-red-alpha);
   }
 }

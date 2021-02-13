@@ -1,8 +1,12 @@
 :root {
   /* Colors */
   --clr-white: #efefef;
-  --clr-black-alpha: rgba(0, 0, 0, 70%);
+  --clr-black-alpha: rgba(0, 0, 0, 80%);
   --clr-red-alpha: rgba(75, 10, 10, 80%);
+  --text-main: white;
+  --text-inverse: black;
+  --text-mute: #bebebe;
+  --text-yellow: #ffff00;
   --menu-btn-color: #555;
   /* Typography */
   --fz-sm: 1.33rem;
@@ -10,12 +14,27 @@
   --fz-lg: 3rem;
   /* Layouts */
   --header-height-mobile: 5vh;
+  --header-height-desktop: calc(5vh + 2.5vw);
+  /* z-index */
+  --z-overlay: 500;
 }
 
 html {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   font-size: 112.5%;
+}
+
+@media (min-width: 1200px) {
+  html {
+    font-size: 125%;
+  }
+}
+
+@media (min-width: 1600px) {
+  html {
+    font-size: 160%;
+  }
 }
 
 *,
@@ -28,7 +47,7 @@ html {
 body {
   margin: 0;
   font-family: 'VT323', monospace;
-  color: var(--clr-white);
+  color: var(--text-main);
   height: 100vh;
 }
 
@@ -82,7 +101,7 @@ button {
 ** Utilities
 ** ==================================== */
 .hidden {
-  display: none;
+  display: none !important;
   opacity: 0;
 }
 
@@ -95,6 +114,21 @@ button {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+}
+
+.sr-only:not(:focus):not(:active) {
+  overflow: hidden;
+  white-space: nowrap;
+  position: absolute;
+  clip: rect(0 0 0 0);
+  -webkit-clip-path: inset(50%);
+          clip-path: inset(50%);
+  height: 1px;
+  width: 1px;
+}
+
+.mute {
+  color: var(--text-mute);
 }
 
 /* ======================================
@@ -169,6 +203,7 @@ button {
   display: grid;
   place-items: center;
   background-color: #fff;
+  color: var(--text-inverse);
   border: 2px solid #333;
   border-radius: 12px;
   padding: 1em;
@@ -201,7 +236,6 @@ button {
 .app {
   height: 100%;
   overflow: hidden;
-  padding: 6vh 0;
   background-image: url("/assets/images/bg.png");
   background-size: cover;
   background-position: 30%;
@@ -210,6 +244,8 @@ button {
 .app-container {
   position: relative;
   height: 100%;
+  max-width: 600px;
+  margin: auto;
 }
 
 .page {
@@ -217,12 +253,13 @@ button {
   top: 0;
   left: 0;
   height: 100%;
-  padding: 0 1em;
+  padding: 6vh 1em;
 }
 
 /* ======================================
 ** Partials
 ** ==================================== */
+/* Start Screen */
 .sc-start {
   display: -ms-grid;
   display: grid;
@@ -232,6 +269,7 @@ button {
 }
 
 .sc-start .title {
+  height: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -249,13 +287,25 @@ button {
 }
 
 .sc-start .title__main {
-  height: 13vh;
+  margin-top: 1.5rem;
+  height: 80%;
+  max-height: 140px;
   margin-bottom: 0.5em;
+}
+
+.sc-start .title__main img {
+  height: 100%;
+  -o-object-fit: fill;
+     object-fit: fill;
 }
 
 .sc-start .title__sub {
   height: 5vh;
   width: 80%;
+}
+
+.sc-start .title__sub img {
+  margin: auto;
 }
 
 .sc-start .dashboard {
@@ -303,11 +353,19 @@ button {
   margin-right: 0;
 }
 
+/* Play Screen */
 .sc-play {
   display: -ms-grid;
   display: grid;
   -ms-grid-rows: var(--header-height-mobile) 1.5fr 4rem 1fr;
       grid-template-rows: var(--header-height-mobile) 1.5fr 4rem 1fr;
+}
+
+@media (min-width: 1200px) {
+  .sc-play {
+    -ms-grid-rows: var(--header-height-desktop) 1.5fr 4rem 1fr;
+        grid-template-rows: var(--header-height-desktop) 1.5fr 4rem 1fr;
+  }
 }
 
 .sc-play .header {
@@ -321,6 +379,10 @@ button {
 
 .sc-play .header .logo {
   height: 100%;
+}
+
+.sc-play .header .logo img {
+  margin: auto;
 }
 
 .sc-play .question {
@@ -368,7 +430,6 @@ button {
   -ms-grid-row: 1;
   -ms-grid-row-span: 1;
   grid-row: 1 / 2;
-  color: black;
 }
 
 .sc-play .hud {
@@ -427,5 +488,149 @@ button {
   -ms-grid-rows: 1fr 1fr;
       grid-template-rows: 1fr 1fr;
   gap: 4vh;
+}
+
+/* Results Overlay */
+.overlay {
+  position: absolute;
+  z-index: var(--z-overlay);
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding-left: 8vw;
+  padding-right: 8vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  /* Backdrop */
+}
+
+.overlay .overlay-content {
+  width: 100%;
+  max-width: 800px;
+  height: 100%;
+  margin: 0 auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.overlay .overlay-content .results--score {
+  height: 100%;
+  display: -ms-grid;
+  display: grid;
+}
+
+.overlay .overlay-content .results--score .table-wrapper table {
+  display: inline-block;
+  width: 100%;
+  height: 80%;
+  max-height: 20em;
+}
+
+.overlay .overlay-content .results--score .table-wrapper table tbody {
+  display: inline-block;
+  width: 100%;
+}
+
+.overlay .overlay-content .results--score .table-wrapper table tbody tr {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-bottom: 0.75em;
+}
+
+.overlay .overlay-content .results--score .table-wrapper table td,
+.overlay .overlay-content .results--score .table-wrapper table span {
+  font-size: var(--fz-sm);
+}
+
+.overlay .overlay-content .results--score .table-wrapper table td {
+  padding: 0.5 0;
+}
+
+.overlay .overlay-content .results--score .table-wrapper table .results--score__total td,
+.overlay .overlay-content .results--score .table-wrapper table .results--score__total span {
+  font-size: var(--fz-lg);
+}
+
+.overlay .overlay-content .results--score .table-wrapper table tr td:last-child {
+  text-align: right;
+}
+
+.overlay .overlay-content .results--died {
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  height: 100%;
+}
+
+.overlay .overlay-content .results--died .message {
+  text-align: center;
+}
+
+.overlay .overlay-content .results--died h2 {
+  font-size: var(--fz-lg);
+}
+
+.overlay .overlay-content .results--died p,
+.overlay .overlay-content .results--died span {
+  font-size: var(--fz-sm);
+}
+
+.overlay .overlay-content .results--died span {
+  color: var(--text-yellow);
+}
+
+.overlay .overlay-content .results__buttons {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.overlay .overlay-content .results__buttons button:not(:last-of-type) {
+  margin-bottom: 0.5em;
+}
+
+.overlay:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  /* underneath overlay, but still on top of app background
+      because this backdrop is nested inside overlay
+      which has a higher stacking context than statically positioned .app element*/
+  z-index: -1;
+  background-color: var(--clr-black-alpha);
+}
+
+.overlay.danger:before {
+  background-color: var(--clr-red-alpha);
 }
 /*# sourceMappingURL=index.css.map */

@@ -61,7 +61,7 @@
       </section>
 
       <!-- Play Screen -->
-      <section class="sc-play page">
+      <section class="sc-play page hidden">
 
         <header class="header">
           <div class="logo"><img src="/assets/images/logo-timescraft.png" alt="TimesCraft"></div>
@@ -140,58 +140,67 @@
     </main>
 
     <!-- Results-Overlay -->
-    <aside id="results" class="hidden">
-      <div class="results--score">
-        <header><img src="/assets/images/logo-clear.png" alt="Clear!"></header>
-        <table class="score">
-          <thead class="sr-only">
-            <tr>
-              <th>Score</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="results__time mute">
-              <td>Clear Time</td>
-              <td><span>48</span>Seconds</td>
-            </tr>
-            <tr class="results__correct">
-              <td>Correct</td>
-              <td><span>7</span></td>
-            </tr>
-            <tr class="results__missed mute">
-              <td>Missed</td>
-              <td><span>2</span></td>
-            </tr>
-            <tr class="results__accuracy">
-              <td>Accuracy</td>
-              <td><span>78</span>%</td>
-            </tr>
-            <tr class="results__difficulty mute">
-              <td>Difficulty</td>
-              <td><span>83</span></td>
-            </tr>
-            <tr class="results__total">
-              <td>Total</td>
-              <td><span>+1400</span></td>
-            </tr>
-            <tr class="results__next-level">
-              <td>Next Level</td>
-              <td><span>1200</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <aside id="results" class="overlay page results">
+      <div class="overlay-content">
 
-      <div class="results--died hidden">
-        <h2>You died!</h2>
-        <p>Score: <span class="zero">0</span></p>
-      </div>
+        <div class="results--score">
+          <header><img src="/assets/images/logo-clear.png" alt="Clear!"></header>
+          <main class="table-wrapper">
+            <table class="score">
+              <thead class="sr-only">
+                <tr>
+                  <th>Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="results--score__time mute">
+                  <td>Clear Time</td>
+                  <td><span>48</span>Seconds</td>
+                </tr>
+                <tr class="results--score__correct">
+                  <td>Correct</td>
+                  <td><span>7</span></td>
+                </tr>
+                <tr class="results--score__missed mute">
+                  <td>Missed</td>
+                  <td><span>2</span></td>
+                </tr>
+                <tr class="results--score__accuracy">
+                  <td>Accuracy</td>
+                  <td><span>78</span>%</td>
+                </tr>
+                <tr class="results--score__difficulty mute">
+                  <td>Difficulty</td>
+                  <td><span>83</span></td>
+                </tr>
+                <tr class="results--score__total">
+                  <td>Total</td>
+                  <td><span>+1400</span></td>
+                </tr>
+                <tr class="results--score__next-level">
+                  <td>Next Level</td>
+                  <td><span>1200</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </main>
+        </div>
 
-      <div class="results__buttons">
-        <button class="btn btn-again">Try Again!</button>
-        <button class="btn btn-main">Main</button>
+        <div class="results--died hidden">
+          <div class="message">
+            <h2>You died!</h2>
+            <p>Score: <span class="zero">0</span></p>
+          </div>
+        </div>
+
+        <div class="results__buttons">
+          <button class="btn btn-again">Try Again!</button>
+          <button class="btn btn-main">Main</button>
+        </div>
+
       </div>
     </aside>
+
 
 
   </div>
