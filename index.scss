@@ -4,10 +4,15 @@
   --clr-black-alpha: rgba(0, 0, 0, 70%);
   --clr-red-alpha: rgba(75, 10, 10, 80%);
 
+  --menu-btn-color: #555;
+
   /* Typography */
   --fz-sm: 1.33rem;
   --fz-md: 2rem;
   --fz-lg: 3rem;
+
+  /* Layouts */
+  --header-height-mobile: 5vh;
 }
 
 html {
@@ -38,14 +43,16 @@ p {
   margin: 0;
 }
 
-p {
+p,
+span {
   font-size: var(--fz-md);
 }
 
 img {
   display: block;
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
 ul {
@@ -65,6 +72,10 @@ td {
 button {
   font: inherit;
   color: var(--clr-white);
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
 }
 
 /* ======================================
@@ -89,9 +100,40 @@ button {
 ** Components
 ** ==================================== */
 .menu-btn {
-  position: absolute;
+  --height: 40px;
+  --bar-height: calc(var(--height) / 10);
+  --gap: calc(var(--bar-height) * 1.2);
+
+  position: fixed;
+  top: 1em;
+  left: 1em;
+  width: 30px;
+  height: var(--height);
+  padding: 2px;
+  span {
+    &::before,
+    &::after {
+      content: '';
+    }
+    &,
+    &::before,
+    &::after {
+      display: block;
+      height: var(--bar-height);
+      width: 100%;
+      background: var(--menu-btn-color);
+    }
+    &::before {
+      --y: calc(-2 * var(--gap));
+      transform: translate3d(0, var(--y), 0);
+    }
+    &::after {
+      transform: translate3d(0, var(--gap), 0);
+    }
+  }
 }
 
+/* Modified from */
 /* http://charliecowan.co.uk/mcbuttongenerator/ */
 .btn {
   font-size: var(--fz-md);
@@ -111,9 +153,40 @@ button {
   border-top: 2px solid #aaa;
   box-sizing: border-box;
   line-height: 1.1;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
   &:hover {
     outline: 2px solid var(--clr-white);
+  }
+}
+
+.speech-bubble {
+  position: relative;
+  display: grid;
+  place-items: center;
+  background-color: #fff;
+  border: 2px solid #333;
+  border-radius: 12px;
+  padding: 1em;
+
+  &:before,
+  &:after {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+  }
+  &:before {
+    left: 10px;
+    bottom: -17px;
+    border: 8px solid;
+    border-color: #333 transparent transparent #333;
+  }
+  &::after {
+    left: 12px;
+    bottom: -12px;
+    border: 6px solid;
+    border-color: #fff transparent transparent #fff;
   }
 }
 
@@ -124,14 +197,23 @@ button {
 .app {
   height: 100%;
   overflow: hidden;
-  padding: 7vh 0;
+  padding: 6vh 0;
   background-image: url('/assets/images/bg.png');
   background-size: cover;
   background-position: 30%;
 }
 
 .app-container {
+  position: relative;
   height: 100%;
+}
+
+.page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  padding: 0 1em;
 }
 
 /* ======================================
@@ -139,10 +221,6 @@ button {
 ** ==================================== */
 
 .sc-start {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
   display: grid;
   place-items: center;
   grid-template-rows: 1fr auto minmax(10rem, 30%);
@@ -200,4 +278,84 @@ button {
 }
 
 .sc-play {
+  display: grid;
+  grid-template-rows: var(--header-height-mobile) 1.5fr 4rem 1fr;
+
+  .header {
+    place-self: center;
+    grid-row: 1 / 2;
+    width: 70%;
+    height: 100%;
+    .logo {
+      height: 100%;
+    }
+  }
+
+  .question {
+    /* You must specify (max-)height when grid area is defined with fr unit, 
+    otherwise the area will grow as much as the size of the content*/
+    max-height: 50vh;
+    height: 100%;
+    padding-top: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    .mob {
+      grid-column: 1 / 3;
+      grid-row: 1 / 3;
+      align-self: end;
+      &-sm {
+        height: 50%;
+      }
+      &-md {
+        height: 70%;
+      }
+      &-lg {
+        height: 100%;
+      }
+    }
+    .speech-bubble {
+      grid-column: 2 / 4;
+      grid-row: 1 / 2;
+      color: black;
+    }
+  }
+
+  .hud {
+    --heart-size: 32px;
+    display: grid;
+    gap: calc(var(--heart-size) * 0.3);
+    grid-template-areas:
+      'life time'
+      'progress progress';
+    height: 100%;
+    &__life {
+      grid-area: life;
+      align-self: end;
+      .heart {
+        height: var(--heart-size);
+        width: var(--heart-size);
+      }
+    }
+    &__time {
+      grid-area: time;
+      justify-self: end;
+      display: flex;
+      align-items: center;
+      .hourglass {
+        width: var(--heart-size);
+        height: calc(var(--heart-size) * 1.25);
+      }
+    }
+    &__progress {
+      grid-area: progress;
+    }
+  }
+
+  .answer-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 4vh;
+  }
 }

@@ -3,10 +3,13 @@
   --clr-white: #efefef;
   --clr-black-alpha: rgba(0, 0, 0, 70%);
   --clr-red-alpha: rgba(75, 10, 10, 80%);
+  --menu-btn-color: #555;
   /* Typography */
   --fz-sm: 1.33rem;
   --fz-md: 2rem;
   --fz-lg: 3rem;
+  /* Layouts */
+  --header-height-mobile: 5vh;
 }
 
 html {
@@ -39,14 +42,17 @@ p {
   margin: 0;
 }
 
-p {
+p,
+span {
   font-size: var(--fz-md);
 }
 
 img {
   display: block;
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 
 ul {
@@ -66,6 +72,10 @@ td {
 button {
   font: inherit;
   color: var(--clr-white);
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
 }
 
 /* ======================================
@@ -91,9 +101,40 @@ button {
 ** Components
 ** ==================================== */
 .menu-btn {
-  position: absolute;
+  --height: 40px;
+  --bar-height: calc(var(--height) / 10);
+  --gap: calc(var(--bar-height) * 1.2);
+  position: fixed;
+  top: 1em;
+  left: 1em;
+  width: 30px;
+  height: var(--height);
+  padding: 2px;
 }
 
+.menu-btn span::before, .menu-btn span::after {
+  content: '';
+}
+
+.menu-btn span, .menu-btn span::before, .menu-btn span::after {
+  display: block;
+  height: var(--bar-height);
+  width: 100%;
+  background: var(--menu-btn-color);
+}
+
+.menu-btn span::before {
+  --y: calc(-2 * var(--gap));
+  -webkit-transform: translate3d(0, var(--y), 0);
+          transform: translate3d(0, var(--y), 0);
+}
+
+.menu-btn span::after {
+  -webkit-transform: translate3d(0, var(--gap), 0);
+          transform: translate3d(0, var(--gap), 0);
+}
+
+/* Modified from */
 /* http://charliecowan.co.uk/mcbuttongenerator/ */
 .btn {
   font-size: var(--fz-md);
@@ -114,10 +155,44 @@ button {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   line-height: 1.1;
+  -webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .btn:hover {
   outline: 2px solid var(--clr-white);
+}
+
+.speech-bubble {
+  position: relative;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  background-color: #fff;
+  border: 2px solid #333;
+  border-radius: 12px;
+  padding: 1em;
+}
+
+.speech-bubble:before, .speech-bubble:after {
+  content: ' ';
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.speech-bubble:before {
+  left: 10px;
+  bottom: -17px;
+  border: 8px solid;
+  border-color: #333 transparent transparent #333;
+}
+
+.speech-bubble::after {
+  left: 12px;
+  bottom: -12px;
+  border: 6px solid;
+  border-color: #fff transparent transparent #fff;
 }
 
 /* ======================================
@@ -126,24 +201,29 @@ button {
 .app {
   height: 100%;
   overflow: hidden;
-  padding: 7vh 0;
+  padding: 6vh 0;
   background-image: url("/assets/images/bg.png");
   background-size: cover;
   background-position: 30%;
 }
 
 .app-container {
+  position: relative;
   height: 100%;
+}
+
+.page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  padding: 0 1em;
 }
 
 /* ======================================
 ** Partials
 ** ==================================== */
 .sc-start {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
   display: -ms-grid;
   display: grid;
   place-items: center;
@@ -221,5 +301,131 @@ button {
 
 .sc-start .table-select .row button:last-of-type {
   margin-right: 0;
+}
+
+.sc-play {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: var(--header-height-mobile) 1.5fr 4rem 1fr;
+      grid-template-rows: var(--header-height-mobile) 1.5fr 4rem 1fr;
+}
+
+.sc-play .header {
+  place-self: center;
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 1;
+  grid-row: 1 / 2;
+  width: 70%;
+  height: 100%;
+}
+
+.sc-play .header .logo {
+  height: 100%;
+}
+
+.sc-play .question {
+  /* You must specify (max-)height when grid area is defined with fr unit, 
+    otherwise the area will grow as much as the size of the content*/
+  max-height: 50vh;
+  height: 100%;
+  padding-top: 2rem;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
+  -ms-grid-rows: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+}
+
+.sc-play .question .mob {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  grid-column: 1 / 3;
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 2;
+  grid-row: 1 / 3;
+  -ms-flex-item-align: end;
+      -ms-grid-row-align: end;
+      align-self: end;
+}
+
+.sc-play .question .mob-sm {
+  height: 50%;
+}
+
+.sc-play .question .mob-md {
+  height: 70%;
+}
+
+.sc-play .question .mob-lg {
+  height: 100%;
+}
+
+.sc-play .question .speech-bubble {
+  -ms-grid-column: 2;
+  -ms-grid-column-span: 2;
+  grid-column: 2 / 4;
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 1;
+  grid-row: 1 / 2;
+  color: black;
+}
+
+.sc-play .hud {
+  --heart-size: 32px;
+  display: -ms-grid;
+  display: grid;
+  gap: calc(var(--heart-size) * 0.3);
+      grid-template-areas: 'life time' 'progress progress';
+  height: 100%;
+}
+
+.sc-play .hud__life {
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+  grid-area: life;
+  -ms-flex-item-align: end;
+      -ms-grid-row-align: end;
+      align-self: end;
+}
+
+.sc-play .hud__life .heart {
+  height: var(--heart-size);
+  width: var(--heart-size);
+}
+
+.sc-play .hud__time {
+  -ms-grid-row: 1;
+  -ms-grid-column: 2;
+  grid-area: time;
+  justify-self: end;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.sc-play .hud__time .hourglass {
+  width: var(--heart-size);
+  height: calc(var(--heart-size) * 1.25);
+}
+
+.sc-play .hud__progress {
+  -ms-grid-row: 2;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  grid-area: progress;
+}
+
+.sc-play .answer-buttons {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+  -ms-grid-rows: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+  gap: 4vh;
 }
 /*# sourceMappingURL=index.css.map */
