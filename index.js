@@ -1,6 +1,7 @@
 import { setNextQuestion, getQuestions } from './js/quiz.js';
-import state, { setState } from './js/state.js';
-import { startQuiz } from './js/quiz.js';
+import state, { setState, resetPlayState } from './js/state.js';
+import { startQuiz, restartQuiz } from './js/quiz.js';
+import { showScreen } from './js/view.js';
 
 //=====================================
 // Event Handlers
@@ -45,13 +46,8 @@ export function handleAnswerButtonClick(e, delay = 500) {
 
 function handleSelectButtonClick() {
   const table = this.dataset.table;
-  let questions;
-  if (table === 'shuffle') {
-    questions = getQuestions({ shuffle: true });
-  }
-  questions = getQuestions({ table, shuffle: false });
-  setState({ currentQuestions: questions });
-  startQuiz();
+
+  startQuiz(table);
 }
 
 function handleTryAgainClick() {
@@ -66,6 +62,22 @@ function handleTryAgainClick() {
   // TODO: add stats page
 }
 
+function handleAgainButtonClick() {
+  restartQuiz();
+}
+
+function handleMainButtonClick() {
+  resetPlayState();
+  showScreen('start');
+}
+
+//=====================================
+// Add event listeners
+//=====================================
+
 $('.table-select > button').each(function (i, button) {
   $(button).on('click', handleSelectButtonClick);
 });
+
+$('.btn-again').on('click', handleAgainButtonClick);
+$('.btn-main').on('click', handleMainButtonClick);

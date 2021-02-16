@@ -1,4 +1,4 @@
-export function goTo(to) {
+export function showScreen(to) {
   switch (to) {
     case 'start':
       return goToStart();
@@ -17,7 +17,7 @@ function goToStart() {
   $('.sc-start').removeClass('hidden');
 
   $('.menu-btn').addClass('hidden');
-  $('.sc-start').addClass('hidden');
+  $('.sc-play').addClass('hidden');
   $('.overlay').addClass('hidden');
 }
 

@@ -1,20 +1,37 @@
 import _shuffle from './shuffle.js';
+import state, { setState, resetPlayState } from './state.js';
 import { mobs } from './mobs.js';
-import state, { setState } from './state.js';
-import { goTo } from './view.js';
+import { showScreen } from './view.js';
 
-export function startQuiz() {
+/**
+ * @param {number} table table selected to play
+ */
+export function startQuiz(table) {
+  let questions;
+  if (table === undefined) {
+    questions = state.currentQuestions;
+  } else if (table === 'shuffle') {
+    questions = getQuestions({ shuffle: true });
+  } else {
+    questions = getQuestions({ table, shuffle: false });
+  }
+  setState({ currentQuestions: questions });
   setNextQuestion();
-  goTo('play');
+  showScreen('play');
+}
+
+export function restartQuiz() {
+  resetPlayState();
+  startQuiz();
 }
 
 export function setNextQuestion() {
   if (state.currentIndex >= state.currentQuestions.length) {
-    return goTo('results');
+    return showScreen('results');
   }
   if (state.life <= 0) {
     // TODO: go to results page and show 'died'
-    return goTo('gameover');
+    return showScreen('gameover');
   }
 
   console.log('setNextQuestion');

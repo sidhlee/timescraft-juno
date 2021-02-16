@@ -56,3 +56,11 @@ function getTables(difficultyArrays, maxTable = 9) {
 
   return tables;
 }
+
+export function resetPlayState() {
+  setState({
+    life: 1,
+    time: 0,
+    currentIndex: 0,
+  });
+}
