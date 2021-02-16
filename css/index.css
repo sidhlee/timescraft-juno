@@ -323,34 +323,17 @@ button {
   width: 80%;
   height: 100%;
   margin: 0 auto;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  display: -ms-grid;
+  display: grid;
+  gap: 1rem;
+  -ms-grid-rows: (1fr)[3];
+      grid-template-rows: repeat(3, 1fr);
+  -ms-grid-columns: (1fr)[4];
+      grid-template-columns: repeat(4, 1fr);
 }
 
-.sc-start .table-select .row {
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
-}
-
-.sc-start .table-select .row:not(:first-of-type) {
-  margin-top: 1em;
-}
-
-.sc-start .table-select .row button {
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
-  margin-right: 0.5em;
-}
-
-.sc-start .table-select .row button:last-of-type {
-  margin-right: 0;
+.sc-start .table-select .select-shuffle {
+  grid-column: 1 / -1;
 }
 
 /* Play Screen */

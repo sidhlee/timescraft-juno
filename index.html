@@ -22,7 +22,7 @@
       </button>
 
       <!-- Start Screen -->
-      <section class="sc-start page hidden">
+      <section class="sc-start page">
         <div class="title">
           <div class="title__main">
             <img src="/assets/images/logo-timescraft.png" alt="TimesCraft">
@@ -42,21 +42,18 @@
           </tr>
         </table>
         <div class="table-select">
-          <div class="row">
-            <button class="btn">2</button>
-            <button class="btn">3</button>
-            <button class="btn">4</button>
-            <button class="btn">5</button>
-          </div>
-          <div class="row">
-            <button class="btn">6</button>
-            <button class="btn">7</button>
-            <button class="btn">8</button>
-            <button class="btn">9</button>
-          </div>
-          <div class="row">
-            <button class="btn">Shuffle!</button>
-          </div>
+
+          <button class="btn select-2" data-table="2">2</button>
+          <button class="btn select-3" data-table="3">3</button>
+          <button class="btn select-4" data-table="4">4</button>
+          <button class="btn select-5" data-table="5">5</button>
+
+          <button class="btn select-6" data-table="6">6</button>
+          <button class="btn select-7" data-table="7">7</button>
+          <button class="btn select-8" data-table="8">8</button>
+          <button class="btn select-9" data-table="9">9</button>
+
+          <button class="btn select-shuffle" data-table="shuffle">Shuffle!</button>
         </div>
       </section>
 
@@ -140,7 +137,7 @@
     </main>
 
     <!-- Results-Overlay -->
-    <aside id="results" class="overlay page results">
+    <aside id="results" class="overlay page results hidden">
       <div class="overlay-content">
 
         <div class="results--score">

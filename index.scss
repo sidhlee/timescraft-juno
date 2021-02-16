@@ -304,21 +304,13 @@ button {
     width: 80%;
     height: 100%;
     margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    .row {
-      flex: 1 1 auto;
-      &:not(:first-of-type) {
-        margin-top: 1em;
-      }
-      button {
-        flex: 1 1 auto;
-        margin-right: 0.5em;
+    display: grid;
+    gap: 1rem;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
 
-        &:last-of-type {
-          margin-right: 0;
-        }
-      }
+    .select-shuffle {
+      grid-column: 1 / -1;
     }
   }
 }
