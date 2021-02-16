@@ -1,5 +1,6 @@
-import { setNextQuestion, getQuestions } from './js/questions.js';
+import { setNextQuestion, getQuestions } from './js/quiz.js';
 import state, { setState } from './js/state.js';
+import { startQuiz } from './js/quiz.js';
 
 //=====================================
 // Event Handlers
@@ -42,14 +43,15 @@ export function handleAnswerButtonClick(e, delay = 500) {
   });
 }
 
-function handleStartButtonClick() {
-  $('#start-btn').addClass('hidden');
-  $('#next-btn').removeClass('hidden');
-  // update state with randomized questions
-  const questions = getQuestions();
+function handleSelectButtonClick() {
+  const table = this.dataset.table;
+  let questions;
+  if (table === 'shuffle') {
+    questions = getQuestions({ shuffle: true });
+  }
+  questions = getQuestions({ table, shuffle: false });
   setState({ currentQuestions: questions });
-
-  setNextQuestion();
+  startQuiz();
 }
 
 function handleTryAgainClick() {
@@ -64,7 +66,6 @@ function handleTryAgainClick() {
   // TODO: add stats page
 }
 
-$('#start-btn').on('click', handleStartButtonClick);
-$('#next-btn').on('click', setNextQuestion);
-$('#answer-buttons').children().on('click', handleAnswerButtonClick);
-$('#result button').on('click', handleTryAgainClick);
+$('.table-select > button').each(function (i, button) {
+  $(button).on('click', handleSelectButtonClick);
+});
