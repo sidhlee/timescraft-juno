@@ -17,7 +17,7 @@ const state = {
   currentIndex: 0,
   currentTable: 2,
   currentQuestions: TABLES[0],
-  life: 5,
+  life: 1,
   time: 0,
 };
 

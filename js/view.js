@@ -6,6 +6,8 @@ export function goTo(to) {
       return goToPlay();
     case 'results':
       return goToResults();
+    case 'gameover':
+      return goToGameOver();
     default:
       goToStart();
   }
@@ -33,4 +35,13 @@ function goToResults() {
   $('.overlay').removeClass('hidden');
 
   $('.sc-start').addClass('hidden');
+}
+
+function goToGameOver() {
+  $('.overlay').addClass('danger');
+  $('.results--score').addClass('hidden');
+
+  $('.results--died').removeClass('hidden');
+
+  goToResults();
 }

@@ -14,6 +14,7 @@ export function setNextQuestion() {
   }
   if (state.life <= 0) {
     // TODO: go to results page and show 'died'
+    return goTo('gameover');
   }
 
   console.log('setNextQuestion');
