@@ -30,7 +30,6 @@ export function setNextQuestion() {
     return showScreen('results');
   }
   if (state.life <= 0) {
-    // TODO: go to results page and show 'died'
     return showScreen('gameover');
   }
 
@@ -202,18 +201,20 @@ const defaultOptions = {
  */
 export function getQuestions({ length, shuffle, table } = defaultOptions) {
   let questions;
+  // convert table into zero-based index for tables array
+  const tableIndex = table - 2;
 
   if (table < 2 || table > 9) {
     throw new Error('invalid table');
   }
 
   if (table) {
-    questions = state.tables[table];
+    questions = state.tables[tableIndex];
     setState({ currentTable: table });
   } else {
-    const randomTable = Math.floor(Math.random() * 8);
-    questions = state.tables[randomTable];
-    setState({ currentTable: randomTable });
+    const randomTableIndex = Math.floor(Math.random() * 8);
+    questions = state.tables[randomTableIndex];
+    setState({ currentTable: randomTableIndex });
   }
 
   if (shuffle) {
