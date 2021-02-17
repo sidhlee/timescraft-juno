@@ -437,14 +437,14 @@ button {
 .sc-play {
   display: -ms-grid;
   display: grid;
-  -ms-grid-rows: var(--header-height-mobile) 1.5fr 4rem 1fr;
-      grid-template-rows: var(--header-height-mobile) 1.5fr 4rem 1fr;
+  -ms-grid-rows: var(--header-height-mobile) 1fr 4rem 30vh;
+      grid-template-rows: var(--header-height-mobile) 1fr 4rem 30vh;
 }
 
 @media (min-width: 1200px) {
   .sc-play {
-    -ms-grid-rows: var(--header-height-desktop) 1.5fr 4rem 1fr;
-        grid-template-rows: var(--header-height-desktop) 1.5fr 4rem 1fr;
+    -ms-grid-rows: var(--header-height-desktop) 1.5fr 4rem 200px;
+        grid-template-rows: var(--header-height-desktop) 1.5fr 4rem 200px;
   }
 }
 
@@ -468,13 +468,12 @@ button {
 .sc-play .question {
   /* You must specify (max-)height when grid area is defined with fr unit, 
     otherwise the area will grow as much as the size of the content*/
-  max-height: 50vh;
-  height: 100%;
-  padding-top: 2rem;
+  height: 40vh;
+  padding-top: 1rem;
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 1fr 1fr 1fr;
-      grid-template-columns: 1fr 1fr 1fr;
+  -ms-grid-columns: 1.25fr 0.5fr 1fr;
+      grid-template-columns: 1.25fr 0.5fr 1fr;
   -ms-grid-rows: 1fr 1fr;
       grid-template-rows: 1fr 1fr;
 }
@@ -489,6 +488,11 @@ button {
   -ms-flex-item-align: end;
       -ms-grid-row-align: end;
       align-self: end;
+}
+
+.sc-play .question .mob img {
+  -o-object-position: bottom left;
+     object-position: bottom left;
 }
 
 .sc-play .question .mob-sm {
