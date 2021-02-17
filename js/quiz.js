@@ -43,6 +43,10 @@ export function restartQuiz() {
 export function setCurrentQuestion() {
   clearTimer();
   timeRemaining = 9;
+
+  showProgress();
+  showLife();
+
   if (state.currentIndex >= state.currentQuestions.length) {
     return showScreen('results');
   }
@@ -55,8 +59,7 @@ export function setCurrentQuestion() {
 
   const answers = getAnswers(questions[i]);
   showAnswers(answers);
-  showProgress();
-  showLife();
+
   showQuestion(questions[i]);
   enableAllAnswers();
 }
@@ -252,6 +255,8 @@ function showProgress() {
     .each((i, div) => {
       if (i < state.currentIndex) {
         $(div).find('img').attr('src', '/assets/images/exp-full.png');
+      } else {
+        $(div).find('img').attr('src', '/assets/images/exp-empty.png');
       }
     });
 }
@@ -269,7 +274,6 @@ function showLife() {
 function startTimer() {
   if (timer !== undefined) return;
   const showAndUpdateTime = () => {
-    console.log('showAndUpdateTime', timer);
     if (timeRemaining < 0) {
       failQuestion();
       setNextQuestion();
