@@ -3,6 +3,17 @@ import state, { setState, resetPlayState } from './state.js';
 import { mobs } from './mobs.js';
 import { showScreen } from './view.js';
 
+//=====================================
+// Local State
+//=====================================
+
+let timeRemaining = 9;
+let timer;
+
+//=====================================
+// Main
+//=====================================
+
 /**
  * @param {number} table table selected to play
  */
@@ -16,7 +27,7 @@ export function startQuiz(table) {
     questions = getQuestions({ table, shuffle: false });
   }
   setState({ currentQuestions: questions });
-  setNextQuestion();
+  setCurrentQuestion();
   showScreen('play');
 }
 
@@ -25,7 +36,13 @@ export function restartQuiz() {
   startQuiz();
 }
 
-export function setNextQuestion() {
+//=====================================
+// Questions
+//=====================================
+
+export function setCurrentQuestion() {
+  clearTimer();
+  timeRemaining = 9;
   if (state.currentIndex >= state.currentQuestions.length) {
     return showScreen('results');
   }
@@ -33,173 +50,33 @@ export function setNextQuestion() {
     return showScreen('gameover');
   }
 
-  console.log('setNextQuestion');
   resetAnswers();
   const { currentQuestions: questions, currentIndex: i } = state;
-  showQuestion(questions[i]);
+
   const answers = getAnswers(questions[i]);
   showAnswers(answers);
   showProgress();
   showLife();
+  showQuestion(questions[i]);
+  enableAllAnswers();
+  startTimer();
+}
 
-  enableAllButtons();
-
-  console.log(state);
+export function setNextQuestion() {
   setState({
     currentIndex: state.currentIndex + 1,
   });
+  setCurrentQuestion();
 }
-
-function showProgress() {
-  $('.hud__progress')
-    .children()
-    .each((i, div) => {
-      if (i <= state.currentIndex) {
-        $(div).find('img').attr('src', '/assets/images/exp-full.png');
-      }
-    });
-}
-
-function showLife() {
-  $('.hud__life')
-    .children()
-    .each((i, div) => {
-      if (i > state.life - 1) {
-        $(div).find('img').attr('src', '/assets/images/heart-gray.png');
-      }
-    });
-}
-
-export function resetAnswers() {
-  $('#answer-buttons')
-    .children()
-    .each((i, btn) => {
-      $(btn)
-        .removeClass('btn-success')
-        .removeClass('btn-danger')
-        .addClass('btn-outline-secondary')
-        .removeAttr('correct');
-    });
-}
-
-export function showQuestion(question) {
-  console.log(question);
-  startTimer();
-  const { table, by, difficulty } = question;
-  const { src } = getMob(difficulty);
-  const questionString = `${table} x ${by} = ?`;
-
-  $('.mob > img')
-    .attr('src', src)
-    .parent()
-    .on('animationend', function () {
-      $(this).removeClass(
-        'animate__animated animate__slideInLeft animate__faster'
-      );
-      showBubble();
-    })
-    .addClass('animate__animated animate__slideInLeft animate__faster');
-
-  function showBubble() {
-    $('.speech-bubble > p')
-      .text(questionString)
-      .parent()
-      .on('animationend', function () {
-        $(this).removeClass(
-          'animate__animated animate__zoomIn animate__faster'
-        );
-      })
-      .removeClass('hidden')
-      .addClass('animate__animated animate__zoomIn animate__faster');
-  }
-}
-
-function getMob(difficulty) {
-  const mob = mobs.find((mob) => mob.difficulty === difficulty);
-  return mob;
-}
-
-function startTimer() {
-  let time = 9;
-
-  const showAndUpdateTime = () => {
-    if (time < 0) {
-      failQuestion();
-      setNextQuestion();
-      return;
-    } else {
-      $('.hud__time > span').text(time);
-      setState({ time: state.time + 1 });
-      time--;
-      setTimeout(showAndUpdateTime, 1000);
-    }
-  };
-
-  showAndUpdateTime();
-}
-
-function failQuestion() {
-  const updatedQuestions = state.currentQuestions.slice();
-  const question = state.currentQuestions[state.currentIndex];
-  updatedQuestions[state.currentIndex] = {
-    ...question,
-    tried: question.tried + 1,
-    lastTried: new Date().getTime(),
-  };
-
-  setState({
-    currentQuestions: updatedQuestions,
-    life: state.life - 1,
-  });
-}
-
-export function getAnswers(question, size = 4) {
-  console.log('getAnswers');
-  const { table, by } = question;
-  const correctAnswer = table * by;
-  const wrongAnswers = getWrongAnswers(question, size - 1);
-  const answers = wrongAnswers.concat({ text: correctAnswer, correct: true });
-
-  return _shuffle(answers);
-}
-
-export function showAnswers(answers) {
-  $('#answer-buttons')
-    .children()
-    .each((i, button) => {
-      $(button).text(answers[i].text);
-      if (answers[i].correct) {
-        $(button).attr('correct', true);
-      }
-    });
-}
-
-export function getWrongAnswers(answer, size = 3) {
-  const wrongAnswers = [2, 3, 4, 5, 6, 7, 8, 9]
-    .filter((by) => by !== answer.by)
-    .map((by) => ({
-      text: answer.table * by,
-      correct: false,
-    }));
-
-  return _shuffle(wrongAnswers).slice(0, size);
-}
-
-export function enableAllButtons() {
-  $('button').removeAttr('disabled');
-}
-
-const defaultOptions = {
-  length: 9,
-  shuffle: false,
-};
 
 /**
  * Select questions from table and return them.
  * @param {{length: number, shuffle: boolean, table: number}} param0
  * @returns {{ table: number, by: number, difficulty: number, tried:number, lastTried: Date, lastCorrect: Date }[]}
  */
-export function getQuestions({ length, shuffle, table } = defaultOptions) {
+export function getQuestions(
+  { length, shuffle, table } = { length: 9, shuffle: false }
+) {
   let questions;
   // convert table into zero-based index for tables array
   const tableIndex = table - 2;
@@ -226,4 +103,199 @@ export function getQuestions({ length, shuffle, table } = defaultOptions) {
   }
 
   return questions;
+}
+
+export function showQuestion(question) {
+  console.log('showQuestion');
+  const { table, by, difficulty } = question;
+  const { src } = getMob(difficulty);
+  const questionString = `${table} x ${by} = ?`;
+  // animate mob
+  $('.mob > img')
+    .attr('src', src)
+    .parent('.mob')
+    .on('animationend', function (e) {
+      e.stopPropagation();
+      console.log('mob animationend');
+      $(this).removeClass(
+        'animate__animated animate__slideInLeft animate__faster'
+      );
+    })
+    .addClass('animate__animated animate__slideInLeft animate__faster');
+
+  $('.speech-bubble > p')
+    .text(questionString)
+    .parent('.speech-bubble')
+    .on('animationend', function (e) {
+      e.stopPropagation();
+      console.log('bubble animationend');
+      $(this).removeClass('animate__animated animate__zoomIn animate__faster');
+    })
+    .removeClass('hidden')
+    .addClass('animate__animated animate__zoomIn animate__faster');
+}
+
+function failQuestion() {
+  const updatedQuestions = state.currentQuestions.slice();
+  const question = state.currentQuestions[state.currentIndex];
+  updatedQuestions[state.currentIndex] = {
+    ...question,
+    tried: question.tried + 1,
+    lastTried: new Date().getTime(),
+  };
+
+  setState({
+    currentQuestions: updatedQuestions,
+    life: state.life - 1,
+  });
+}
+
+function passQuestion() {
+  const updatedQuestions = state.currentQuestions.slice();
+  const question = state.currentQuestions[state.currentIndex];
+  updatedQuestions[state.currentIndex] = {
+    ...question,
+    tried: question.tried + 1,
+    correct: question.correct + 1,
+    lastTried: new Date().getTime(),
+    lastCorrect: new Date().getTime(),
+  };
+
+  setState({
+    currentQuestions: updatedQuestions,
+  });
+}
+
+//=====================================
+// Answers
+//=====================================
+
+export function getAnswers(question, size = 4) {
+  const { table, by } = question;
+  const correctAnswer = table * by;
+  const wrongAnswers = getWrongAnswers(question, size - 1);
+  const answers = wrongAnswers.concat({ text: correctAnswer, correct: true });
+
+  return _shuffle(answers);
+}
+
+export function showAnswers(answers) {
+  $('.answer-buttons')
+    .children()
+    .each((i, button) => {
+      $(button).text(answers[i].text);
+      if (answers[i].correct) {
+        $(button).attr('correct', true);
+      }
+    });
+}
+
+export function getWrongAnswers(answer, size = 3) {
+  const wrongAnswers = [2, 3, 4, 5, 6, 7, 8, 9]
+    .filter((by) => by !== answer.by)
+    .map((by) => ({
+      text: answer.table * by,
+      correct: false,
+    }));
+
+  return _shuffle(wrongAnswers).slice(0, size);
+}
+
+export function enableAllAnswers() {
+  $('button').removeAttr('disabled');
+}
+
+export function resetAnswers() {
+  $('.answer-buttons')
+    .children()
+    .each((i, btn) => {
+      $(btn)
+        .removeClass('btn-success')
+        .removeClass('btn-danger')
+        .addClass('btn-outline-secondary')
+        .removeAttr('correct');
+    });
+}
+
+export function evaluateAnswer(e) {
+  const { currentQuestions, currentIndex } = state;
+  const updatedCurrentQuestions = currentQuestions.slice();
+
+  // save selected answer
+  updatedCurrentQuestions[currentIndex].lastAnswer = +e.target.textContent;
+
+  // Update lastTried state
+  const lastTried = new Date().getTime();
+  updatedCurrentQuestions[currentIndex].lastTried = lastTried;
+
+  const correct = $(e.target).attr('correct');
+  console.log({ correct });
+
+  if (correct) {
+    updatedCurrentQuestions[currentIndex].lastCorrect = lastTried;
+    passQuestion();
+  } else {
+    failQuestion();
+  }
+
+  setState({
+    currentQuestions: updatedCurrentQuestions,
+  });
+}
+
+//=====================================
+// HUD
+//=====================================
+
+function showProgress() {
+  $('.hud__progress')
+    .children()
+    .each((i, div) => {
+      if (i < state.currentIndex) {
+        $(div).find('img').attr('src', '/assets/images/exp-full.png');
+      }
+    });
+}
+
+function showLife() {
+  $('.hud__life')
+    .children()
+    .each((i, div) => {
+      if (i > state.life - 1) {
+        $(div).find('img').attr('src', '/assets/images/heart-gray.png');
+      }
+    });
+}
+
+function startTimer() {
+  if (timer !== undefined) return;
+  const showAndUpdateTime = () => {
+    console.log('showAndUpdateTime', timer);
+    if (timeRemaining < 0) {
+      failQuestion();
+      setNextQuestion();
+      return;
+    } else {
+      $('.hud__time > span').text(timeRemaining);
+      setState({ time: state.clearTime + 1 });
+      timeRemaining--;
+      timer = setTimeout(showAndUpdateTime, 1000);
+    }
+  };
+
+  showAndUpdateTime();
+}
+
+function clearTimer() {
+  clearTimeout(timer);
+  timer = undefined;
+}
+
+//=====================================
+// Helpers
+//=====================================
+
+function getMob(difficulty) {
+  const mob = mobs.find((mob) => mob.difficulty === difficulty);
+  return mob;
 }

@@ -510,6 +510,8 @@ button {
   -ms-grid-row: 1;
   -ms-grid-row-span: 1;
   grid-row: 1 / 2;
+  -webkit-animation-delay: 0.4s;
+          animation-delay: 0.4s;
 }
 
 .sc-play .hud {

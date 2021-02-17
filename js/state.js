@@ -17,8 +17,8 @@ const state = {
   currentIndex: 0,
   currentTable: 2,
   currentQuestions: TABLES[0],
-  life: 1,
-  time: 0,
+  life: 5,
+  clearTime: 0,
 };
 
 export function setState(newState) {
@@ -59,7 +59,7 @@ function getTables(difficultyArrays, maxTable = 9) {
 
 export function resetPlayState() {
   setState({
-    life: 1,
+    life: 5,
     time: 0,
     currentIndex: 0,
   });
