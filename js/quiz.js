@@ -22,9 +22,9 @@ export function startQuiz(table) {
   if (table === undefined) {
     questions = state.currentQuestions;
   } else if (table === 'shuffle') {
-    questions = getQuestions({ shuffle: true });
+    questions = getRandomQuestions();
   } else {
-    questions = getQuestions({ table, shuffle: false });
+    questions = getQuestions({ table, shuffle: true });
   }
   setState({ currentQuestions: questions });
   setCurrentQuestion();
@@ -105,6 +105,12 @@ export function getQuestions(
   }
 
   return questions;
+}
+
+function getRandomQuestions() {
+  const allQuestions = state.tables.flat();
+  const shuffledQuestions = _shuffle(allQuestions);
+  return shuffledQuestions.slice(0, 9);
 }
 
 export function showQuestion(question) {
