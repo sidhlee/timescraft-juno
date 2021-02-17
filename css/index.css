@@ -486,26 +486,33 @@ button {
   -ms-grid-row: 1;
   -ms-grid-row-span: 2;
   grid-row: 1 / 3;
-  -ms-flex-item-align: end;
-      -ms-grid-row-align: end;
+  -ms-grid-row-align: end;
       align-self: end;
+  display: -ms-grid;
+  display: grid;
+  place-items: start bottom;
 }
 
 .sc-play .question .mob img {
+  width: 100%;
+  height: 100%;
   -o-object-position: bottom left;
      object-position: bottom left;
 }
 
 .sc-play .question .mob-sm {
   height: 50%;
+  width: 50%;
 }
 
 .sc-play .question .mob-md {
   height: 70%;
+  width: 70%;
 }
 
 .sc-play .question .mob-lg {
   height: 100%;
+  width: 100%;
 }
 
 .sc-play .question .speech-bubble {

@@ -116,7 +116,9 @@ function getRandomQuestions() {
 export function showQuestion(question) {
   console.log('showQuestion');
   const { table, by, difficulty } = question;
-  const { src } = getMob(difficulty);
+  const { src, size } = getMob(difficulty);
+  console.log({ src, size });
+
   const questionString = `${table} x ${by} = ?`;
   // animate mob
   $('.mob > img')
@@ -128,7 +130,10 @@ export function showQuestion(question) {
         'animate__animated animate__slideInLeft animate__faster'
       );
     })
+    .removeClass('mob-sm mob-md mob-lg')
+    .addClass(`mob-${size}`)
     .addClass('animate__animated animate__slideInLeft animate__faster');
+
   // animate bubble
 
   $('.speech-bubble > p')
@@ -137,7 +142,7 @@ export function showQuestion(question) {
     .one('animationend', function (e) {
       e.stopPropagation();
       $(this).removeClass('animate__animated animate__zoomIn animate__faster');
-      startTimer();
+      // startTimer();
     })
     .removeClass('hidden')
     .addClass('animate__animated animate__zoomIn animate__faster');
@@ -306,5 +311,6 @@ function clearTimer() {
 
 function getMob(difficulty) {
   const mob = mobs.find((mob) => mob.difficulty === difficulty);
+  console.log(mob);
   return mob;
 }
