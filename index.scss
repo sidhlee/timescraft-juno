@@ -348,14 +348,16 @@ button {
 
     padding-top: 1rem;
     display: grid;
-    grid-template-columns: 1.25fr 0.5fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1.25fr 2rem 1fr;
+    grid-template-rows: 0.3fr 1fr 1fr;
     .mob {
+      z-index: 50;
       grid-column: 1 / 3;
-      grid-row: 1 / 3;
+      grid-row: 2 / 4;
       align-self: end;
-      display: grid;
-      place-items: start bottom;
+      // display: flex;
+      // justify-items: flex-start;
+      // align-items: flex-end;
       img {
         width: 100%;
         height: 100%;
@@ -373,15 +375,24 @@ button {
         height: 100%;
         width: 100%;
       }
+      &-xl {
+        height: 180%;
+        width: 180%;
+        position: relative;
+        right: 50%;
+        top: 30%;
+      }
     }
     .speech-bubble {
+      z-index: 100;
       grid-column: 2 / 4;
-      grid-row: 1 / 2;
+      grid-row: 1 / 3;
       animation-delay: 0.4s;
     }
   }
 
   .hud {
+    z-index: 200;
     --heart-size: 32px;
     display: grid;
     gap: calc(var(--heart-size) * 0.3);
@@ -413,6 +424,7 @@ button {
   }
 
   .answer-buttons {
+    z-index: 250;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;

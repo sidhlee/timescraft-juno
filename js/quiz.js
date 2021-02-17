@@ -130,7 +130,7 @@ export function showQuestion(question) {
         'animate__animated animate__slideInLeft animate__faster'
       );
     })
-    .removeClass('mob-sm mob-md mob-lg')
+    .removeClass('mob-sm mob-md mob-lg mob-xl')
     .addClass(`mob-${size}`)
     .addClass('animate__animated animate__slideInLeft animate__faster');
 
