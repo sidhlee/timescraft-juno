@@ -114,7 +114,7 @@ export function showQuestion(question) {
   $('.mob > img')
     .attr('src', src)
     .parent('.mob')
-    .on('animationend', function (e) {
+    .one('animationend', function (e) {
       e.stopPropagation();
       console.log('mob animationend');
       $(this).removeClass(
@@ -122,11 +122,11 @@ export function showQuestion(question) {
       );
     })
     .addClass('animate__animated animate__slideInLeft animate__faster');
-
+  // animate bubble
   $('.speech-bubble > p')
     .text(questionString)
     .parent('.speech-bubble')
-    .on('animationend', function (e) {
+    .one('animationend', function (e) {
       e.stopPropagation();
       console.log('bubble animationend');
       $(this).removeClass('animate__animated animate__zoomIn animate__faster');

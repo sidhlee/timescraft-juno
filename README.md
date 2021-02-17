@@ -53,3 +53,41 @@ interval(
   10
 );
 ```
+
+## jQuery Tips & Gotchas
+
+### `.on()` vs `.one()`
+
+jQuery allows multiple handlers on the same element.
+Unless manually removed with `.off()`, all attached event handler will be called in the same order that they were added.
+<br/>
+In the follow example, additional `endCallback` will be registered to `animationend` event every time `showModal` is called. As a result, endCallback will run as many times as showModal has been called.
+
+```js
+function showModal() {
+  $('.modal')
+    .on('animationend', endCallback)
+    .addClass('animate__animated animate__slideInLeft');
+}
+```
+
+So typically, you would want to use `.one()` with `animationend`
+
+```js
+function showModal() {
+  $('.modal')
+    // endCallback will be .off() -ed after it gets invoked.
+    .on('animationend', endCallback)
+    .addClass('animate__animated animate__slideInLeft');
+}
+```
+
+### Adding or removing multiple classes
+
+```js
+$('.modal').addClass('show').addClass('warning').addClass('slide-down');
+
+// would be same as:
+
+$('.modal').addClass('show warning slide-down');
+```
