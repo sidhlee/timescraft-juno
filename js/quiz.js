@@ -278,7 +278,6 @@ export async function evaluateAnswer(e) {
   if (correct) {
     updatedCurrentQuestions[currentIndex].lastCorrect = lastTried;
     await passQuestion(e.target);
-    // TODO: add pass/fail effect (eg. shake in red, highlight correct answer, etc...)
   } else {
     await failQuestion(e.target);
   }
@@ -317,9 +316,9 @@ function showLife() {
 
 function startTimer() {
   if (timer !== undefined) return;
-  const showAndUpdateTime = () => {
+  const showAndUpdateTime = async () => {
     if (timeRemaining < 0) {
-      failQuestion();
+      await failQuestion();
       setNextQuestion();
       return;
     } else {
