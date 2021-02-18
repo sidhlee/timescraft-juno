@@ -19,6 +19,8 @@ const state = {
   currentQuestions: TABLES[0],
   life: 5,
   clearTime: 0,
+  score: 0,
+  level: 1,
 };
 
 export function setState(newState) {

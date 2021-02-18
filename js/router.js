@@ -1,4 +1,7 @@
-export function showScreen(to) {
+import state from './state.js';
+import { updateResults, showLevelUpMessage } from './results.js';
+
+export function goTo(to) {
   switch (to) {
     case 'start':
       return goToStart();
@@ -14,11 +17,14 @@ export function showScreen(to) {
 }
 
 function goToStart() {
-  $('.sc-start').removeClass('hidden');
-
   $('.menu-btn').addClass('hidden');
   $('.sc-play').addClass('hidden');
   $('.overlay').addClass('hidden');
+
+  $('.dashboard__score > td:last-child').text(state.score);
+  $('.dashboard__level > td:last-child').text(state.level);
+
+  $('.sc-start').removeClass('hidden');
 }
 
 function goToPlay() {
@@ -30,11 +36,15 @@ function goToPlay() {
 }
 
 function goToResults() {
-  $('.sc-start').removeClass('hidden');
+  $('.sc-start').addClass('hidden');
+  $('.sc-play').addClass('hidden');
+
+  const { isUp } = updateResults();
+
   $('.menu-btn').removeClass('hidden');
   $('.overlay').removeClass('hidden');
 
-  $('.sc-start').addClass('hidden');
+  if (isUp) showLevelUpMessage();
 }
 
 function goToGameOver() {

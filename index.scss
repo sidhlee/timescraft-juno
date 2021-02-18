@@ -6,8 +6,8 @@ $wide: 1600px;
 :root {
   /* Colors */
   --clr-white: #efefef;
-  --clr-black-alpha: rgba(0, 0, 0, 80%);
-  --clr-red-alpha: rgba(75, 10, 10, 80%);
+  --clr-black-alpha: rgba(0, 0, 0, 82%);
+  --clr-red-alpha: rgba(75, 10, 10, 82%);
 
   --text-main: white;
   --text-inverse: black;
@@ -459,8 +459,12 @@ button {
       height: 100%;
       display: grid;
       header {
+        position: relative;
         display: grid;
         place-items: center;
+        .levelup-img {
+          position: absolute;
+        }
       }
 
       .table-wrapper {

@@ -95,8 +95,8 @@
 :root {
   /* Colors */
   --clr-white: #efefef;
-  --clr-black-alpha: rgba(0, 0, 0, 80%);
-  --clr-red-alpha: rgba(75, 10, 10, 80%);
+  --clr-black-alpha: rgba(0, 0, 0, 82%);
+  --clr-red-alpha: rgba(75, 10, 10, 82%);
   --text-main: white;
   --text-inverse: black;
   --text-mute: #bebebe;
@@ -640,9 +640,14 @@ button {
 }
 
 .overlay .overlay-content .results--score header {
+  position: relative;
   display: -ms-grid;
   display: grid;
   place-items: center;
+}
+
+.overlay .overlay-content .results--score header .levelup-img {
+  position: absolute;
 }
 
 .overlay .overlay-content .results--score .table-wrapper table {

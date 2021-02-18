@@ -5,7 +5,7 @@ import {
   evaluateAnswer,
   setNextQuestion,
 } from './js/quiz.js';
-import { showScreen } from './js/view.js';
+import { goTo } from './js/router.js';
 
 //=====================================
 // Event Handlers
@@ -32,7 +32,7 @@ function handleAgainButtonClick() {
 
 function handleMainButtonClick() {
   resetPlayState();
-  showScreen('start');
+  goTo('start');
 }
 
 //=====================================
@@ -56,3 +56,5 @@ $('.btn-main').on('click', handleMainButtonClick);
 // TODO: save result to the localStorage
 // TODO: load result from localStorage on mount
 // TODO: add stats page
+
+goTo('start');

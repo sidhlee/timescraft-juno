@@ -1,7 +1,7 @@
 import _shuffle from './shuffle.js';
 import state, { setState, resetPlayState } from './state.js';
 import { mobs } from './mobs.js';
-import { showScreen } from './view.js';
+import { goTo } from './router.js';
 
 //=====================================
 // Local State
@@ -28,7 +28,7 @@ export function startQuiz(table) {
   }
   setState({ currentQuestions: questions });
   setCurrentQuestion();
-  showScreen('play');
+  goTo('play');
 }
 
 export function restartQuiz() {
@@ -48,10 +48,10 @@ export function setCurrentQuestion() {
   showLife();
 
   if (state.currentIndex >= state.currentQuestions.length) {
-    return showScreen('results');
+    return goTo('results');
   }
   if (state.life <= 0) {
-    return showScreen('gameover');
+    return goTo('gameover');
   }
 
   resetAnswers();
@@ -142,7 +142,7 @@ export function showQuestion(question) {
     .one('animationend', function (e) {
       e.stopPropagation();
       $(this).removeClass('animate__animated animate__zoomIn animate__faster');
-      // startTimer();
+      startTimer();
     })
     .removeClass('hidden')
     .addClass('animate__animated animate__zoomIn animate__faster');
@@ -176,6 +176,7 @@ function passQuestion() {
 
   setState({
     currentQuestions: updatedQuestions,
+    score: state.score + question.difficulty * 100,
   });
 }
 
@@ -254,6 +255,7 @@ export function evaluateAnswer(e) {
   setState({
     currentQuestions: updatedCurrentQuestions,
   });
+  console.log(state);
 }
 
 //=====================================
