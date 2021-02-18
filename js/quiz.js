@@ -176,7 +176,6 @@ function passQuestion() {
 
   setState({
     currentQuestions: updatedQuestions,
-    score: state.score + question.difficulty * 100,
   });
 }
 
@@ -293,7 +292,7 @@ function startTimer() {
       return;
     } else {
       $('.hud__time > span').text(timeRemaining);
-      setState({ time: state.clearTime + 1 });
+      setState({ clearTime: state.clearTime + 1 });
       timeRemaining--;
       timer = setTimeout(showAndUpdateTime, 1000);
     }

@@ -1,17 +1,4 @@
-import state from './state.js';
-
-export function showResult() {
-  const score = getScore();
-  const details = getResultDetails();
-
-  $('.result__score > span').text(score);
-  $('.result__details').append(details);
-
-  $('#main').addClass('hidden');
-  $('#result')
-    .removeClass('hidden')
-    .addClass('animate__animated animate__fadeIn');
-}
+import state, { setState } from './state.js';
 
 /**
  * Returns an array of <li> elements with results
@@ -41,23 +28,6 @@ function getResultDetails() {
   return details;
 }
 
-function getScore() {
-  const score = state.currentQuestions.reduce((score, question) => {
-    return score + question.difficulty * 100;
-  }, 0);
-  const totalCorrect = state.currentQuestions.reduce((total, question) => {
-    return total + (question.lastCorrect ? 1 : 0);
-  }, 0);
-
-  const accuracy = Math.round(
-    (totalCorrect / state.currentQuestions.length) * 100
-  );
-
-  const scoreText = `${score} (${accuracy}%)`;
-
-  return scoreText;
-}
-
 function wasCorrect(question) {
   const { lastTried, lastCorrect } = question;
 
@@ -65,15 +35,14 @@ function wasCorrect(question) {
 }
 
 function getResults(state) {
-  const { clearTime, life, currentQuestions, score, level } = state;
+  const { clearTime, life, currentQuestions, level } = state;
   const correct = life + 3;
   const missed = 5 - life;
   const accuracy = Math.round((correct * 100) / 8);
   const difficulty = currentQuestions.reduce((difficulty, question) => {
     return difficulty + question.difficulty;
   }, 0);
-  const setScore = accuracy * 20 + difficulty * 10 - clearTime * 5;
-  const total = score + setScore;
+  const total = getGameScore(accuracy, difficulty, clearTime);
   const { scoreToNextLevel, upBy, isUp } = getLevelInfo(total);
   const levelAfterClear = level + upBy;
 
@@ -91,6 +60,11 @@ function getResults(state) {
   };
 }
 
+function getGameScore(accuracy, difficulty, clearTime) {
+  const score = accuracy * 10 + difficulty * 5 - clearTime * 2;
+  return score;
+}
+
 function getLevelInfo(total) {
   let upBy = 0;
   let remaining = total;
@@ -102,7 +76,6 @@ function getLevelInfo(total) {
     let toNext = 1000 * 1.2 ** upBy;
     while (remaining > toNext) {
       remaining = remaining - toNext;
-      console.log(remaining);
       upBy++;
     }
   }
@@ -123,6 +96,7 @@ export function updateResults() {
     total,
     nextLevel,
     isUp,
+    levelUpBy,
   } = getResults(state);
 
   // show clear-img in case hidden by levelup message
@@ -135,6 +109,11 @@ export function updateResults() {
   $('.results--score__difficulty span').text(difficulty);
   $('.results--score__total span').text(total);
   $('.results--score__next-level span').text(nextLevel);
+
+  setState({
+    level: state.level + levelUpBy,
+    score: state.score + total,
+  });
 
   return {
     isUp,
