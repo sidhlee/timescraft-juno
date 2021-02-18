@@ -8,6 +8,8 @@ $wide: 1600px;
   --clr-white: #efefef;
   --clr-black-alpha: rgba(0, 0, 0, 82%);
   --clr-red-alpha: rgba(75, 10, 10, 82%);
+  --clr-correct: rgba(75, 228, 61, 0.8);
+  --clr-wrong: rgba(236, 52, 46, 0.8);
 
   --text-main: white;
   --text-inverse: black;
@@ -128,6 +130,14 @@ button {
 
 .mute {
   color: var(--text-mute);
+}
+
+.btn.btn-correct {
+  outline: 2px solid var(--clr-correct);
+  color: var(--clr-correct);
+}
+.btn.btn-wrong {
+  outline: 2px solid var(--clr-wrong);
 }
 
 /* ======================================
@@ -253,6 +263,34 @@ button {
   left: 0;
   height: 100%;
   padding: 6vh 1em;
+}
+
+/* ======================================
+** Animation
+** ==================================== */
+
+.flash-warning {
+  &:after {
+    content: '';
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    animation: warn 300ms linear;
+  }
+}
+@keyframes warn {
+  25% {
+    background-color: rgba(75, 10, 10, 0.5);
+  }
+  50% {
+    background-color: rgba(75, 10, 10, 0.3);
+  }
+  75% {
+    background-color: rgba(75, 10, 10, 0.5);
+  }
 }
 
 /* ======================================

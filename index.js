@@ -15,8 +15,9 @@ import { goTo } from './js/router.js';
  * Select answer to move to next question if correct
  * @param {number} delay - delay until showing next question
  */
-function handleAnswerButtonClick(e) {
-  evaluateAnswer(e);
+async function handleAnswerButtonClick(e) {
+  // wait for pass/fail animation sequence to end
+  await evaluateAnswer(e);
   setNextQuestion();
 }
 
@@ -51,10 +52,7 @@ $('.answer-buttons').children().on('click', handleAnswerButtonClick);
 $('.btn-again').on('click', handleAgainButtonClick);
 $('.btn-main').on('click', handleMainButtonClick);
 
-// TODO: reset state & button disable
-// TODO: add start page -> set table or shuffle
 // TODO: save result to the localStorage
 // TODO: load result from localStorage on mount
-// TODO: add stats page
 
 goTo('start');

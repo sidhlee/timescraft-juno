@@ -2,6 +2,7 @@ import _shuffle from './shuffle.js';
 import state, { setState, resetPlayState } from './state.js';
 import { mobs } from './mobs.js';
 import { goTo } from './router.js';
+import { animate, markCorrectAnswer, flashWarning, sleep } from './helpers.js';
 
 //=====================================
 // Local State
@@ -142,13 +143,24 @@ export function showQuestion(question) {
     .one('animationend', function (e) {
       e.stopPropagation();
       $(this).removeClass('animate__animated animate__zoomIn animate__faster');
+      // start countdown after question is displayed
       startTimer();
     })
     .removeClass('hidden')
     .addClass('animate__animated animate__zoomIn animate__faster');
 }
 
-function failQuestion() {
+async function failQuestion(clickedButtonElement) {
+  await showFailSequence(clickedButtonElement);
+  setFailState();
+}
+
+async function passQuestion(clickedButtonElement) {
+  await showPassSequence(clickedButtonElement);
+  setPassState();
+}
+
+function setFailState() {
   const updatedQuestions = state.currentQuestions.slice();
   const question = state.currentQuestions[state.currentIndex];
   updatedQuestions[state.currentIndex] = {
@@ -163,7 +175,7 @@ function failQuestion() {
   });
 }
 
-function passQuestion() {
+function setPassState() {
   const updatedQuestions = state.currentQuestions.slice();
   const question = state.currentQuestions[state.currentIndex];
   updatedQuestions[state.currentIndex] = {
@@ -177,6 +189,22 @@ function passQuestion() {
   setState({
     currentQuestions: updatedQuestions,
   });
+}
+
+async function showFailSequence() {
+  markCorrectAnswer();
+  flashWarning();
+  await animate(
+    '.hud__life',
+    'animate__animated animate__shakeX animate__fast'
+  );
+  await sleep(1000);
+}
+
+async function showPassSequence(clickedButtonElement) {
+  markCorrectAnswer(clickedButtonElement);
+  await animate('.mob', 'animate__animated animate__shakeX animate__fast');
+  await animate('.mob', 'animate__animated animate__fadeOut animate__faster');
 }
 
 //=====================================
@@ -223,14 +251,17 @@ export function resetAnswers() {
     .children()
     .each((i, btn) => {
       $(btn)
-        .removeClass('btn-success')
-        .removeClass('btn-danger')
+        .removeClass('btn-success btn-danger btn-correct')
         .addClass('btn-outline-secondary')
         .removeAttr('correct');
     });
 }
 
-export function evaluateAnswer(e) {
+/**
+ *
+ * @param {object} e click event from an answer button
+ */
+export async function evaluateAnswer(e) {
   const { currentQuestions, currentIndex } = state;
   const updatedCurrentQuestions = currentQuestions.slice();
 
@@ -246,9 +277,10 @@ export function evaluateAnswer(e) {
 
   if (correct) {
     updatedCurrentQuestions[currentIndex].lastCorrect = lastTried;
-    passQuestion();
+    await passQuestion(e.target);
+    // TODO: add pass/fail effect (eg. shake in red, highlight correct answer, etc...)
   } else {
-    failQuestion();
+    await failQuestion(e.target);
   }
 
   setState({
