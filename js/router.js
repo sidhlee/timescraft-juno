@@ -24,10 +24,13 @@ function goToStart() {
   $('.dashboard__score > td:last-child').text(state.score);
   $('.dashboard__level > td:last-child').text(state.level);
 
+  $('.app').addClass('parallax');
   $('.sc-start').removeClass('hidden');
 }
 
 function goToPlay() {
+  $('.app').removeClass('parallax');
+
   $('.sc-play').removeClass('hidden');
   $('.menu-btn').removeClass('hidden');
 
@@ -36,6 +39,8 @@ function goToPlay() {
 }
 
 function goToResults() {
+  $('.app').addClass('parallax');
+
   $('.sc-start').addClass('hidden');
   $('.sc-play').addClass('hidden');
 
@@ -48,6 +53,8 @@ function goToResults() {
 }
 
 function goToGameOver() {
+  $('.app').addClass('parallax');
+
   $('.overlay').addClass('danger');
   $('.results--score').addClass('hidden');
 

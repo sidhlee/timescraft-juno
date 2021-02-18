@@ -403,6 +403,103 @@ button {
   }
 }
 
+.app.parallax {
+  background-size: 500%;
+  background-repeat: no-repeat;
+  -webkit-animation: move-bg 120s alternate infinite linear;
+          animation: move-bg 120s alternate infinite linear;
+}
+
+@-webkit-keyframes move-bg {
+  0% {
+    background-position: 30% 0;
+  }
+  40% {
+    background-position: 100% 100%;
+  }
+  50% {
+    background-position: 100% 75%;
+  }
+  75% {
+    background-position: 75% 0%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+@keyframes move-bg {
+  0% {
+    background-position: 30% 0;
+  }
+  40% {
+    background-position: 100% 100%;
+  }
+  50% {
+    background-position: 100% 75%;
+  }
+  75% {
+    background-position: 75% 0%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+@media (min-width: 700px) {
+  .app.parallax {
+    background-size: 500%;
+    background-repeat: no-repeat;
+    -webkit-animation: move-bg-desktop 100s alternate infinite linear;
+            animation: move-bg-desktop 100s alternate infinite linear;
+  }
+}
+
+@media (min-width: 1200px) {
+  .app.parallax {
+    background-size: 200%;
+    background-repeat: no-repeat;
+    -webkit-animation: move-bg-desktop 120s alternate infinite linear;
+            animation: move-bg-desktop 120s alternate infinite linear;
+  }
+}
+
+@-webkit-keyframes move-bg-desktop {
+  0% {
+    background-position: 30% 30%;
+  }
+  25% {
+    background-position: 25% 100%;
+  }
+  50% {
+    background-position: 100% 75%;
+  }
+  75% {
+    background-position: 75% 0%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+@keyframes move-bg-desktop {
+  0% {
+    background-position: 30% 30%;
+  }
+  25% {
+    background-position: 25% 100%;
+  }
+  50% {
+    background-position: 100% 75%;
+  }
+  75% {
+    background-position: 75% 0%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
 /* ======================================
 ** Partials
 ** ==================================== */
