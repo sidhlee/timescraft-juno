@@ -1,8 +1,13 @@
 import _shuffle from './shuffle.js';
 import state, { setState, resetPlayState } from './state.js';
-import { mobs } from './mobs.js';
 import { goTo } from './router.js';
-import { animate, markCorrectAnswer, flashWarning, sleep } from './helpers.js';
+import {
+  animate,
+  markCorrectAnswer,
+  flashWarning,
+  sleep,
+  getMob,
+} from './helpers.js';
 
 //=====================================
 // Local State
@@ -329,14 +334,4 @@ function startTimer() {
 function clearTimer() {
   clearTimeout(timer);
   timer = undefined;
-}
-
-//=====================================
-// Helpers
-//=====================================
-
-function getMob(difficulty) {
-  const mob = mobs.find((mob) => mob.difficulty === difficulty);
-
-  return mob;
 }

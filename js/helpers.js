@@ -1,3 +1,5 @@
+import { mobs } from './mobs.js';
+
 export async function animate(querySelector, animationClassName) {
   return new Promise((resolve) => {
     $(querySelector)
@@ -42,4 +44,10 @@ export function loadSound() {
     src: ['/assets/audio/Minecraft.mp3'],
   });
   return { hitSound, openingMusic };
+}
+
+export function getMob(difficulty) {
+  const mob = mobs.find((mob) => mob.difficulty === difficulty);
+
+  return mob;
 }
