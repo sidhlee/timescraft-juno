@@ -31,3 +31,15 @@ export async function sleep(ms) {
     setTimeout(() => resolve(), ms);
   });
 }
+
+export function loadSound() {
+  // Howl loaded with CDN
+  const hitSound = new Howl({
+    src: ['/assets/audio/hit.mp3'],
+    volume: 0.2,
+  });
+  const openingMusic = new Howl({
+    src: ['/assets/audio/Minecraft.mp3'],
+  });
+  return { hitSound, openingMusic };
+}

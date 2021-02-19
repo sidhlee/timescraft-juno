@@ -412,37 +412,37 @@ button {
 
 @-webkit-keyframes move-bg {
   0% {
-    background-position: 30% 0;
+    background-position: 30% 0%;
   }
   40% {
     background-position: 100% 100%;
   }
   50% {
-    background-position: 100% 75%;
+    background-position: 50% 75%;
   }
   75% {
     background-position: 75% 0%;
   }
   100% {
-    background-position: 0% 0%;
+    background-position: 0% 30%;
   }
 }
 
 @keyframes move-bg {
   0% {
-    background-position: 30% 0;
+    background-position: 30% 0%;
   }
   40% {
     background-position: 100% 100%;
   }
   50% {
-    background-position: 100% 75%;
+    background-position: 50% 75%;
   }
   75% {
     background-position: 75% 0%;
   }
   100% {
-    background-position: 0% 0%;
+    background-position: 0% 30%;
   }
 }
 
@@ -478,7 +478,7 @@ button {
     background-position: 75% 0%;
   }
   100% {
-    background-position: 0% 0%;
+    background-position: 0% 30%;
   }
 }
 
@@ -496,7 +496,7 @@ button {
     background-position: 75% 0%;
   }
   100% {
-    background-position: 0% 0%;
+    background-position: 0% 30%;
   }
 }
 

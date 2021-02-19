@@ -8,8 +8,6 @@ A multiplication quiz app for my son who loves Minecraft.
 
 Snowpack is fast, but setting up Jest to work properly can be a pain.
 
-## Unsolved Mysteries
-
 ### Jest with ESM
 
 - ESM modules can access $ defined in global (loaded with CDN)
@@ -53,6 +51,10 @@ interval(
   10
 );
 ```
+
+### Play Audio without user action
+
+- Use [Howler](https://github.com/goldfire/howler.js#documentation)
 
 ## jQuery Tips & Gotchas
 

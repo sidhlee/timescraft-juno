@@ -6,6 +6,10 @@ import {
   setNextQuestion,
 } from './js/quiz.js';
 import { goTo } from './js/router.js';
+import { loadSound } from './js/helpers.js';
+
+// load audio files
+const { hitSound, openingMusic } = loadSound();
 
 //=====================================
 // Event Handlers
@@ -17,6 +21,7 @@ import { goTo } from './js/router.js';
  */
 async function handleAnswerButtonClick(e) {
   // wait for pass/fail animation sequence to end
+  hitSound.play();
   await evaluateAnswer(e);
   setNextQuestion();
 }
@@ -24,6 +29,7 @@ async function handleAnswerButtonClick(e) {
 function handleSelectButtonClick() {
   // get selected table from data attribute
   const table = this.dataset.table;
+
   startQuiz(table);
 }
 
