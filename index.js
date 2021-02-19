@@ -60,5 +60,8 @@ $('.btn-main').on('click', handleMainButtonClick);
 
 // TODO: save result to the localStorage
 // TODO: load result from localStorage on mount
+// TODO: open menu modal on menu button click
+// -> pauses game while open
+// menu items: Try again, Main, Reset Score, Sound Off/On
 
 goTo('start');

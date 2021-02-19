@@ -19,6 +19,7 @@ let timer;
  * @param {number} table table selected to play
  */
 export function startQuiz(table) {
+  resetPlayState();
   let questions;
   if (table === undefined) {
     questions = state.currentQuestions;
@@ -33,7 +34,7 @@ export function startQuiz(table) {
 }
 
 export function restartQuiz() {
-  resetPlayState();
+  // resetPlayState();
   startQuiz();
 }
 
@@ -310,6 +311,8 @@ function showLife() {
     .each((i, div) => {
       if (i > state.life - 1) {
         $(div).find('img').attr('src', '/assets/images/heart-gray.png');
+      } else {
+        $(div).find('img').attr('src', '/assets/images/heart.png');
       }
     });
 }
