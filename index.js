@@ -1,10 +1,5 @@
 import { resetPlayState } from './js/state.js';
-import {
-  startQuiz,
-  restartQuiz,
-  evaluateAnswer,
-  setNextQuestion,
-} from './js/quiz.js';
+import { startQuiz, evaluateAnswer, setNextQuestion } from './js/quiz.js';
 import { goTo } from './js/router.js';
 import { loadSound } from './js/helpers.js';
 
@@ -34,7 +29,7 @@ function handleSelectButtonClick() {
 }
 
 function handleAgainButtonClick() {
-  restartQuiz();
+  startQuiz();
 }
 
 function handleMainButtonClick() {

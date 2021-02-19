@@ -33,11 +33,6 @@ export function startQuiz(table) {
   goTo('play');
 }
 
-export function restartQuiz() {
-  // resetPlayState();
-  startQuiz();
-}
-
 //=====================================
 // Questions
 //=====================================
