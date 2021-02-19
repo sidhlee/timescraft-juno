@@ -66,3 +66,27 @@ export function resetPlayState() {
     currentIndex: 0,
   });
 }
+
+const savedStates = ['tables', 'score', 'level'];
+
+export function saveState() {
+  savedStates.forEach((s) => {
+    const dataString = JSON.stringify(state[s]);
+    window.localStorage.setItem(s, dataString);
+  });
+}
+
+export function loadState() {
+  savedStates.forEach((s) => {
+    const dataString = window.localStorage.getItem(s);
+    if (dataString) {
+      setState({ [s]: JSON.parse(dataString) });
+    }
+  });
+}
+
+export function clearState() {
+  savedStates.forEach((s) => {
+    window.localStorage.removeItem(s);
+  });
+}

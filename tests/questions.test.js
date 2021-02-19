@@ -18,7 +18,7 @@ describe('getWrongAnswers', () => {
 
   it('should get unique values', () => {
     const wrongAnswers = getWrongAnswers({ table: 7, by: 4 });
-    console.log(wrongAnswers);
+
     wrongAnswers.forEach((answer) => {
       const duplicatedAnswer = wrongAnswers.find((a) => a.text === answer.text);
       expect(duplicatedAnswer).toBeUndefined;

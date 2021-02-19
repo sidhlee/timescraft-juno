@@ -1,38 +1,4 @@
-import state, { setState } from './state.js';
-
-/**
- * Returns an array of <li> elements with results
- */
-function getResultDetails() {
-  const details = state.currentQuestions.map((question) => {
-    const { table, by, lastAnswer } = question;
-    const correct = wasCorrect(question);
-    const classes = `list-group-item ${
-      correct ? 'list-group-item-success' : 'list-group-item-danger'
-    }`;
-
-    let text;
-    if (correct) {
-      text = `${table} x ${by} = ${lastAnswer} ${'   '}✅`;
-    } else {
-      text = `${table} x ${by} = ${lastAnswer} ${'   '} ❌  (correct: ${
-        table * by
-      })`;
-    }
-
-    return `<li class="${classes}">
-          ${text} 
-       </li>`;
-  });
-
-  return details;
-}
-
-function wasCorrect(question) {
-  const { lastTried, lastCorrect } = question;
-
-  return lastTried?.getTime() === lastCorrect?.getTime();
-}
+import state, { saveState, setState } from './state.js';
 
 function getResults(state) {
   const { clearTime, life, currentQuestions, level } = state;
@@ -86,6 +52,9 @@ function getLevelInfo(total) {
   return { scoreToNextLevel, upBy, isUp };
 }
 
+/**
+ * Render results, update state, save state into localStorage
+ */
 export function updateResults() {
   const {
     clearTime,
@@ -114,6 +83,8 @@ export function updateResults() {
     level: state.level + levelUpBy,
     score: state.score + total,
   });
+
+  saveState();
 
   return {
     isUp,

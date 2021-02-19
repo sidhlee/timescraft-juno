@@ -1,4 +1,4 @@
-import state from './state.js';
+import state, { loadState } from './state.js';
 import { updateResults, showLevelUpMessage } from './results.js';
 
 export function goTo(to) {
@@ -20,6 +20,8 @@ function goToStart() {
   $('.menu-btn').addClass('hidden');
   $('.sc-play').addClass('hidden');
   $('.overlay').addClass('hidden');
+
+  loadState();
 
   $('.dashboard__score > td:last-child').text(state.score);
   $('.dashboard__level > td:last-child').text(state.level);
@@ -55,10 +57,12 @@ function goToResults() {
 function goToGameOver() {
   $('.app').addClass('parallax');
 
-  $('.overlay').addClass('danger');
   $('.results--score').addClass('hidden');
+  $('.sc-start').addClass('hidden');
+  $('.sc-play').addClass('hidden');
+  $('.overlay').addClass('danger');
 
+  $('.menu-btn').removeClass('hidden');
+  $('.overlay').removeClass('hidden');
   $('.results--died').removeClass('hidden');
-
-  goToResults();
 }

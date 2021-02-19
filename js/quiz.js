@@ -111,10 +111,8 @@ function getRandomQuestions() {
 }
 
 export function showQuestion(question) {
-  console.log('showQuestion');
   const { table, by, difficulty } = question;
   const { src, size } = getMob(difficulty);
-  console.log({ src, size });
 
   const questionString = `${table} x ${by} = ?`;
   // animate mob
@@ -269,7 +267,6 @@ export async function evaluateAnswer(e) {
   updatedCurrentQuestions[currentIndex].lastTried = lastTried;
 
   const correct = $(e.target).attr('correct');
-  console.log({ correct });
 
   if (correct) {
     updatedCurrentQuestions[currentIndex].lastCorrect = lastTried;
@@ -281,7 +278,6 @@ export async function evaluateAnswer(e) {
   setState({
     currentQuestions: updatedCurrentQuestions,
   });
-  console.log(state);
 }
 
 //=====================================
@@ -341,6 +337,6 @@ function clearTimer() {
 
 function getMob(difficulty) {
   const mob = mobs.find((mob) => mob.difficulty === difficulty);
-  console.log(mob);
+
   return mob;
 }
