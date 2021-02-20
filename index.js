@@ -101,5 +101,5 @@ $('.btn-main').on('click', handleMainButtonClick);
 //=====================================
 goTo('start');
 
-//TODO: add stats menu button
+//TODO: add stats menu
 //TODO: menu button only works on second click when game is restarted after clicking on "Main"

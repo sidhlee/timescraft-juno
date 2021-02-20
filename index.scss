@@ -11,6 +11,7 @@ $wide: 2000px;
   --clr-red-alpha: rgba(75, 10, 10, 82%);
   --clr-correct: rgba(75, 228, 61, 0.8);
   --clr-wrong: rgba(236, 52, 46, 0.8);
+  --clr-focus: rgb(235, 168, 69);
 
   --text-main: white;
   --text-inverse: black;
@@ -109,6 +110,9 @@ button {
   background: transparent;
   padding: 0;
   margin: 0;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 /* ======================================
@@ -234,6 +238,9 @@ button {
       transform: translate3d(0, var(--gap), 0);
     }
   }
+  &:focus {
+    outline: 2px solid var(--clr-focus);
+  }
 }
 
 .menu {
@@ -312,7 +319,8 @@ button {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
   &:hover,
-  &:active {
+  &:active,
+  &:focus {
     outline: 2px solid var(--clr-white);
   }
 }
