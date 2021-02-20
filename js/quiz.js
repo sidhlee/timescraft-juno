@@ -7,14 +7,9 @@ import {
   flashWarning,
   sleep,
   getMob,
+  updateHud,
 } from './helpers.js';
-
-//=====================================
-// Local State
-//=====================================
-
-let timeRemaining = 9;
-let timer;
+import { clearTimer, pauseTimer, resetTimer, startTimer } from './timer.js';
 
 //=====================================
 // Main
@@ -43,11 +38,8 @@ export function startQuiz(table) {
 //=====================================
 
 export function setCurrentQuestion() {
-  clearTimer();
-  timeRemaining = 9;
-
-  showProgress();
-  showLife();
+  resetTimer();
+  updateHud();
 
   if (state.currentIndex >= state.currentQuestions.length) {
     return goTo('results');
@@ -58,8 +50,8 @@ export function setCurrentQuestion() {
 
   resetAnswers();
   const { currentQuestions: questions, currentIndex: i } = state;
-
   const answers = getAnswers(questions[i]);
+
   showAnswers(answers);
 
   showQuestion(questions[i]);
@@ -149,7 +141,7 @@ export function showQuestion(question) {
     .addClass('animate__animated animate__zoomIn animate__faster');
 }
 
-async function failQuestion(clickedButtonElement) {
+export async function failQuestion(clickedButtonElement) {
   await showFailSequence(clickedButtonElement);
   setFailState();
 }
@@ -261,6 +253,8 @@ export function resetAnswers() {
  * @param {object} e click event from an answer button
  */
 export async function evaluateAnswer(e) {
+  pauseTimer();
+
   const { currentQuestions, currentIndex } = state;
   const updatedCurrentQuestions = currentQuestions.slice();
 
@@ -283,55 +277,4 @@ export async function evaluateAnswer(e) {
   setState({
     currentQuestions: updatedCurrentQuestions,
   });
-}
-
-//=====================================
-// HUD
-//=====================================
-
-function showProgress() {
-  $('.hud__progress')
-    .children()
-    .each((i, div) => {
-      if (i < state.currentIndex) {
-        $(div).find('img').attr('src', '/assets/images/exp-full.png');
-      } else {
-        $(div).find('img').attr('src', '/assets/images/exp-empty.png');
-      }
-    });
-}
-
-function showLife() {
-  $('.hud__life')
-    .children()
-    .each((i, div) => {
-      if (i > state.life - 1) {
-        $(div).find('img').attr('src', '/assets/images/heart-gray.png');
-      } else {
-        $(div).find('img').attr('src', '/assets/images/heart.png');
-      }
-    });
-}
-
-function startTimer() {
-  if (timer !== undefined) return;
-  const showAndUpdateTime = async () => {
-    if (timeRemaining < 0) {
-      await failQuestion();
-      setNextQuestion();
-      return;
-    } else {
-      $('.hud__time > span').text(timeRemaining);
-      setState({ clearTime: state.clearTime + 1 });
-      timeRemaining--;
-      timer = setTimeout(showAndUpdateTime, 1000);
-    }
-  };
-
-  showAndUpdateTime();
-}
-
-function clearTimer() {
-  clearTimeout(timer);
-  timer = undefined;
 }

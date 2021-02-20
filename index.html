@@ -16,10 +16,34 @@
 <body>
   <div class="app">
     <main id="main" class="app-container">
-      <!-- Menu Button -->
+      <!-- Menu  -->
       <button class="menu-btn hidden">
         <span></span>
       </button>
+      <div class="menu backdrop hidden">
+        <div class="menu-content">
+          <div class="menu-main">
+            <p class="menu-title">Game menu</p>
+            <div class="menu-buttons">
+              <button class="btn btn-resume">Back to Game</button>
+              <button class="btn btn-again">Try Again!</button>
+              <button class="btn btn-main">Main</button>
+              <button class="btn btn-stats">Statistics</button>
+              <button class="btn btn-reset">Reset score</button>
+            </div>
+          </div>
+          <div class="reset-confirm hidden">
+            <p class="menu-title">Are you sure you want to delete all game data and reset score?</p>
+            <div class="menu-buttons">
+              <button class="btn btn-confirm-yes">Reset</button>
+              <button class="btn btn-confirm-no">Cancel</button>
+            </div>
+          </div>
+          <div class="reset-message hidden">
+            <p class="menu-title">Score has been reset</p>
+          </div>
+        </div>
+      </div>
 
       <!-- Start Screen -->
       <section class="sc-start page">
@@ -138,7 +162,7 @@
     </main>
 
     <!-- Results-Overlay -->
-    <aside id="results" class="overlay page results hidden">
+    <aside id="results" class="overlay page results backdrop hidden">
       <div class="overlay-content">
 
         <div class="results--score">

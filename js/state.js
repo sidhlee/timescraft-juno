@@ -19,8 +19,10 @@ const state = {
   currentQuestions: TABLES[0],
   life: 5,
   clearTime: 0,
+  remainingTime: 9,
   score: 0,
   level: 1,
+  isMenuOpen: false,
 };
 
 export function setState(newState) {
@@ -62,8 +64,9 @@ function getTables(difficultyArrays, maxTable = 9) {
 export function resetPlayState() {
   setState({
     life: 5,
-    time: 0,
+    clearTime: 0,
     currentIndex: 0,
+    remainingTime: 9,
   });
 }
 
@@ -85,8 +88,12 @@ export function loadState() {
   });
 }
 
-export function clearState() {
+export function clearSavedState() {
   savedStates.forEach((s) => {
     window.localStorage.removeItem(s);
   });
+}
+
+export function resetState() {
+  setState(state);
 }

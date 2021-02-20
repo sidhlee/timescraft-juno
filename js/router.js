@@ -1,5 +1,6 @@
 import state, { loadState } from './state.js';
 import { updateResults, showLevelUpMessage } from './results.js';
+import { updateDashboard } from './helpers.js';
 
 export function goTo(to) {
   switch (to) {
@@ -20,11 +21,10 @@ function goToStart() {
   $('.menu-btn').addClass('hidden');
   $('.sc-play').addClass('hidden');
   $('.overlay').addClass('hidden');
+  $('.menu').addClass('hidden');
 
   loadState();
-
-  $('.dashboard__score > td:last-child').text(state.score);
-  $('.dashboard__level > td:last-child').text(state.level);
+  updateDashboard();
 
   $('.app').addClass('parallax');
   $('.sc-start').removeClass('hidden');
@@ -38,6 +38,7 @@ function goToPlay() {
 
   $('.sc-start').addClass('hidden');
   $('.overlay').addClass('hidden');
+  $('.menu').addClass('hidden');
 }
 
 function goToResults() {
@@ -45,10 +46,11 @@ function goToResults() {
 
   $('.sc-start').addClass('hidden');
   $('.sc-play').addClass('hidden');
+  $('.menu-btn').addClass('hidden');
+  $('.menu').addClass('hidden');
 
   const { isUp } = updateResults();
 
-  $('.menu-btn').removeClass('hidden');
   $('.overlay').removeClass('hidden');
 
   if (isUp) showLevelUpMessage();
@@ -61,6 +63,7 @@ function goToGameOver() {
   $('.sc-start').addClass('hidden');
   $('.sc-play').addClass('hidden');
   $('.overlay').addClass('danger');
+  $('.menu').addClass('hidden');
 
   $('.menu-btn').removeClass('hidden');
   $('.overlay').removeClass('hidden');

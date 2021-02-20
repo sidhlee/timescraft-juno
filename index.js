@@ -1,9 +1,15 @@
-import { resetPlayState } from './js/state.js';
+import state, { clearSavedState, resetPlayState } from './js/state.js';
 import { startQuiz, evaluateAnswer, setNextQuestion } from './js/quiz.js';
 import { goTo } from './js/router.js';
-import { loadSound } from './js/helpers.js';
+import {
+  closeMenu,
+  openMenu,
+  loadSound,
+  openConfirmation,
+  showResetMessage,
+} from './js/helpers.js';
 
-// load audio files
+// (pre)load audio files
 const { hitSound, openingMusic } = loadSound();
 
 //=====================================
@@ -37,6 +43,29 @@ function handleMainButtonClick() {
   goTo('start');
 }
 
+function handleMenuButtonClick() {
+  if (state.isMenuOpen) {
+    closeMenu();
+  } else {
+    openMenu();
+  }
+}
+
+async function handleResetButtonClick() {
+  openConfirmation();
+}
+
+async function handleConfirmResetButtonClick() {
+  clearSavedState();
+  await showResetMessage();
+  handleMainButtonClick();
+}
+
+function handleCancelResetButtonClick() {
+  $('.menu-main').removeClass('hidden');
+  $('.reset-confirm').addClass('hidden');
+}
+
 //=====================================
 // Event Bindings
 //=====================================
@@ -49,6 +78,15 @@ $('.table-select > button').each(function (i, button) {
 // Play
 $('.answer-buttons').children().on('click', handleAnswerButtonClick);
 
+// Menu
+$('.menu-btn').on('click', handleMenuButtonClick);
+$('.btn-resume').on('click', closeMenu);
+$('.btn-reset').on('click', handleResetButtonClick);
+
+// Reset confirmation
+$('.btn-confirm-yes').on('click', handleConfirmResetButtonClick);
+$('.btn-confirm-no').on('click', handleCancelResetButtonClick);
+
 // Results
 $('.btn-again').on('click', handleAgainButtonClick);
 $('.btn-main').on('click', handleMainButtonClick);
@@ -57,4 +95,7 @@ $('.btn-main').on('click', handleMainButtonClick);
 // -> pauses game while open
 // menu items: Try again, Main, Reset Score, Sound Off/On
 
+//=====================================
+// Run Main
+//=====================================
 goTo('start');

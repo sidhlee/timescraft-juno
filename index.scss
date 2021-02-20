@@ -26,9 +26,12 @@ $wide: 1600px;
   /* Layouts */
   --header-height-mobile: 5vh;
   --header-height-desktop: calc(5vh + 2.5vw);
+  --gap: 0.5rem;
 
   /* z-index */
   --z-overlay: 500;
+  --z-menu-btn: 2000;
+  --z-menu: 1500;
 }
 
 html {
@@ -144,16 +147,17 @@ button {
 ** Components
 ** ==================================== */
 .menu-btn {
-  --height: 40px;
-  --bar-height: calc(var(--height) / 10);
+  --size: 50px;
+  --bar-height: calc(var(--size) / 10);
   --gap: calc(var(--bar-height) * 1.2);
 
   position: fixed;
-  top: 1em;
-  left: 1em;
-  width: 30px;
-  height: var(--height);
-  padding: 2px;
+  z-index: var(--z-menu-btn);
+  top: 4vw;
+  left: 4vw;
+  width: var(--size);
+  height: var(--size);
+  padding: 10px;
   span {
     &::before,
     &::after {
@@ -177,6 +181,57 @@ button {
   }
 }
 
+.menu {
+  position: absolute;
+  z-index: var(--z-menu);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: grid;
+  grid-template-rows: 1fr auto 2fr;
+  justify-items: center;
+  .menu-content {
+    grid-row: 2 / 3;
+
+    width: 90%;
+    max-width: 800px;
+
+    .menu-title {
+      text-align: center;
+      padding: 1em;
+    }
+    .menu-buttons {
+      display: grid;
+      gap: var(--gap);
+      .btn {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.backdrop {
+  /* Backdrop */
+  &:before {
+    content: '';
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    /* underneath overlay, but still on top of app background
+      because this backdrop is nested inside overlay
+      which has a higher stacking context than statically positioned .app element*/
+    z-index: -1;
+    background-color: var(--clr-black-alpha);
+  }
+  &.danger:before {
+    background-color: var(--clr-red-alpha);
+  }
+}
+
 /* Modified from */
 /* http://charliecowan.co.uk/mcbuttongenerator/ */
 .btn {
@@ -188,7 +243,7 @@ button {
   display: inline-block;
   background-image: url('/assets/images/button-center.png');
   background-repeat: repeat;
-  padding: 0;
+  padding: 0 0.25em;
   text-align: center;
   text-shadow: 3px 3px #4c4c4c;
   border-bottom: 4px solid #565656;
@@ -622,23 +677,5 @@ button {
         margin-bottom: 0.5em;
       }
     }
-  }
-  /* Backdrop */
-  &:before {
-    content: '';
-    display: block;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    /* underneath overlay, but still on top of app background
-      because this backdrop is nested inside overlay
-      which has a higher stacking context than statically positioned .app element*/
-    z-index: -1;
-    background-color: var(--clr-black-alpha);
-  }
-  &.danger:before {
-    background-color: var(--clr-red-alpha);
   }
 }
