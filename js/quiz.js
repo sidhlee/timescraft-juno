@@ -135,7 +135,7 @@ export function showQuestion(question) {
       e.stopPropagation();
       $(this).removeClass('animate__animated animate__zoomIn animate__faster');
       // start countdown after question is displayed
-      // startTimer();
+      startTimer();
     })
     .removeClass('hidden')
     .addClass('animate__animated animate__zoomIn animate__faster');

@@ -2,7 +2,7 @@
 
 $tablet: 700px;
 $desktop: 1200px;
-$wide: 1600px;
+$wide: 2000px;
 
 :root {
   /* Colors */
@@ -80,8 +80,11 @@ span {
 
 img {
   display: block;
-  max-width: 100%;
-  max-height: 100%;
+  /* don't care if the image grows over its size because they are pixel graphics after all.  */
+  // max-width: 100%;
+  // max-height: 100%;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
 }
 
@@ -126,6 +129,10 @@ button {
   display: flex;
 }
 
+// .col {
+//   flex: 1 1 auto;
+// }
+
 .sr-only:not(:focus):not(:active) {
   overflow: hidden;
   white-space: nowrap;
@@ -146,6 +153,49 @@ button {
 }
 .btn.btn-wrong {
   outline: 2px solid var(--clr-wrong);
+}
+
+/* ======================================
+** Layout
+** ==================================== */
+
+.app {
+  height: 100%;
+  overflow: hidden;
+  background-image: url('/assets/images/bg.png');
+  background-size: cover;
+  background-position: 30%;
+}
+
+.app-container {
+  position: relative;
+  height: 100%;
+  margin: auto;
+  @media (min-width: $tablet) {
+    font-size: 150%;
+    max-width: 600px;
+  }
+
+  @media (min-width: $desktop) {
+    font-size: 150%;
+    max-width: 700px;
+  }
+  @media (min-width: $wide) {
+    font-size: 170%;
+    max-width: 1000px;
+  }
+}
+
+.page {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  padding: 6vh 6vw;
+  @media (min-width: $tablet) {
+    padding: 6vh 6vw;
+  }
 }
 
 /* ======================================
@@ -301,33 +351,6 @@ button {
 }
 
 /* ======================================
-** Layout
-** ==================================== */
-
-.app {
-  height: 100%;
-  overflow: hidden;
-  background-image: url('/assets/images/bg.png');
-  background-size: cover;
-  background-position: 30%;
-}
-
-.app-container {
-  position: relative;
-  height: 100%;
-  max-width: 600px;
-  margin: auto;
-}
-
-.page {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  padding: 6vh 1em;
-}
-
-/* ======================================
 ** Animation
 ** ==================================== */
 
@@ -475,6 +498,9 @@ button {
 .sc-play {
   display: grid;
   grid-template-rows: var(--header-height-mobile) 1fr 4rem 30vh;
+  @media (min-width: $tablet) {
+    grid-template-rows: 0.4fr 1.5fr 4rem 200px;
+  }
   @media (min-width: $desktop) {
     grid-template-rows: var(--header-height-desktop) 1.5fr 4rem 200px;
   }
@@ -496,19 +522,18 @@ button {
     /* You must specify (max-)height when grid area is defined with fr unit, 
     otherwise the area will grow as much as the size of the content*/
     height: 40vh;
-
     padding-top: 1rem;
+    align-self: center;
     display: grid;
-    grid-template-columns: 1.25fr 2rem 1fr;
-    grid-template-rows: 0.3fr 1fr 1fr;
+    grid-template-columns: 1fr 2vw 1fr;
+    grid-template-rows: 0.2fr 1fr 1fr;
     .mob {
       z-index: 50;
-      grid-column: 1 / 3;
+      grid-column: 1 / 2;
       grid-row: 2 / 4;
-      align-self: end;
-      // display: flex;
-      // justify-items: flex-start;
-      // align-items: flex-end;
+      align-self: center;
+      justify-self: center;
+
       img {
         width: 100%;
         height: 100%;
@@ -536,7 +561,7 @@ button {
     }
     .speech-bubble {
       z-index: 100;
-      grid-column: 2 / 4;
+      grid-column: 3 / 4;
       grid-row: 1 / 3;
       animation-delay: 0.4s;
     }
@@ -547,6 +572,7 @@ button {
     --heart-size: 32px;
     display: grid;
     gap: calc(var(--heart-size) * 0.3);
+    grid-template-columns: auto 100px;
     grid-template-areas:
       'life time'
       'progress progress';
@@ -565,8 +591,17 @@ button {
       display: flex;
       align-items: center;
       .hourglass {
+        /* 
+        When img is globally set with max-height&width of 100%
+        it prevents img from growing over it's original size.
+        If you specify both the  width and height of the container and
+        the aspect ratio doesn't exactly match the image's,
+        you will end up with some extra space either:
+        1. to the right of the image (image's narrower than the container)
+        2. to the bottom of the image (image's shorter than the container)                      
+        */
         width: var(--heart-size);
-        height: calc(var(--heart-size) * 1.25);
+        // height: calc(var(--heart-size) * 1.25);
       }
     }
     &__progress {
@@ -589,22 +624,36 @@ button {
   position: absolute;
   z-index: var(--z-overlay);
   top: 0;
+  right: 0;
+  bottom: 0;
   left: 0;
-  width: 100%;
+
   padding-left: 8vw;
   padding-right: 8vw;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: grid;
+  place-items: center;
+
   .overlay-content {
     width: 100%;
-    max-width: 800px;
     height: 100%;
+    max-height: 1500px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    @media (min-width: $tablet) {
+      max-width: 400px;
+      max-height: 800px;
+    }
+    @media (min-width: $desktop) {
+      max-width: 450px;
+      max-height: 900px;
+    }
+    @media (min-width: $wide) {
+      max-width: 500px;
+      max-height: 1000px;
+    }
 
     .results--score {
       height: 100%;
