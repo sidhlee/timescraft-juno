@@ -124,15 +124,21 @@ html {
   font-size: 112.5%;
 }
 
+@media (min-width: 700px) {
+  html {
+    font-size: 150%;
+  }
+}
+
 @media (min-width: 1200px) {
   html {
-    font-size: 125%;
+    font-size: 150%;
   }
 }
 
 @media (min-width: 1600px) {
   html {
-    font-size: 160%;
+    font-size: 170%;
   }
 }
 
@@ -314,7 +320,7 @@ button {
   -ms-grid-column-align: center;
       justify-self: center;
   width: 100%;
-  max-width: 300px;
+  max-width: 400px;
 }
 
 .backdrop {

@@ -99,6 +99,10 @@ $('.btn-main').on('click', handleMainButtonClick);
 //=====================================
 // Run Main
 //=====================================
-goTo('start');
+// goTo('start');
 
 //TODO: add stats menu button
+//TODO: fine-tune responsibility (ipad)
+//TODO: menu button only works on second click when game is restarted after clicking on "Main"
+//TODO: results table data too far away
+//TODO: hourglass vertical align with number

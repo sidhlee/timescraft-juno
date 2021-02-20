@@ -1,5 +1,6 @@
 @import './animate.scss';
 
+$tablet: 700px;
 $desktop: 1200px;
 $wide: 1600px;
 
@@ -37,11 +38,15 @@ $wide: 1600px;
 html {
   box-sizing: border-box;
   font-size: 112.5%;
+  @media (min-width: $tablet) {
+    font-size: 150%;
+  }
+
   @media (min-width: $desktop) {
-    font-size: 125%;
+    font-size: 150%;
   }
   @media (min-width: $wide) {
-    font-size: 160%;
+    font-size: 170%;
   }
 }
 *,
@@ -207,7 +212,7 @@ button {
       .btn {
         justify-self: center;
         width: 100%;
-        max-width: 300px;
+        max-width: 400px;
       }
     }
   }
