@@ -99,7 +99,10 @@ $('.btn-main').on('click', handleMainButtonClick);
 //=====================================
 // Run Main
 //=====================================
-goTo('start');
+
+$(document).ready(function () {
+  goTo('start');
+});
 
 //TODO: add stats menu
 //TODO: menu button only works on second click when game is restarted after clicking on "Main"

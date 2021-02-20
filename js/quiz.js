@@ -20,6 +20,7 @@ import { clearTimer, pauseTimer, resetTimer, startTimer } from './timer.js';
  */
 export function startQuiz(table) {
   resetPlayState();
+
   let questions;
   if (table === undefined) {
     questions = state.currentQuestions;

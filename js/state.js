@@ -71,6 +71,7 @@ export function resetPlayState() {
     clearTime: 0,
     currentIndex: 0,
     remainingTime: 9,
+    isMenuOpen: false,
   });
 }
 
@@ -84,7 +85,6 @@ export function saveState() {
 }
 
 export function loadState() {
-  console.log('loadState');
   savedStates.forEach((s) => {
     const dataString = window.localStorage.getItem(s);
     if (dataString) {

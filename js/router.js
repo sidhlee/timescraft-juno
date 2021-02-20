@@ -33,8 +33,8 @@ function goToStart() {
 function goToPlay() {
   $('.app').removeClass('parallax');
 
-  $('.sc-play').removeClass('hidden');
-  $('.menu-btn').removeClass('hidden');
+  $('.sc-play').removeClass('hidden')[0];
+  $('.menu-btn').removeClass('hidden')[0];
 
   $('.sc-start').addClass('hidden');
   $('.overlay').addClass('hidden');
