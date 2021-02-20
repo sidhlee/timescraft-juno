@@ -97,9 +97,13 @@
   --clr-white: #efefef;
   --clr-black-alpha: rgba(0, 0, 0, 82%);
   --clr-red-alpha: rgba(75, 10, 10, 82%);
-  --clr-correct: rgba(75, 228, 61, 0.8);
+  --clr-correct: rgb(132, 195, 82);
   --clr-wrong: rgba(236, 52, 46, 0.8);
   --clr-focus: rgb(235, 168, 69);
+  --clr-primary: #3b691c;
+  --clr-primary-light: rgba(101, 168, 48, 0.8);
+  --clr-secondary: rgb(86, 48, 29);
+  --clr-secondary-light: #7a4626;
   --text-main: white;
   --text-inverse: black;
   --text-mute: #bebebe;
@@ -522,10 +526,10 @@ button:hover {
 
 @-webkit-keyframes move-bg {
   0% {
-    background-position: 30% 0%;
+    background-position: 30% 70%;
   }
   40% {
-    background-position: 100% 100%;
+    background-position: 0% 100%;
   }
   50% {
     background-position: 50% 75%;
@@ -540,10 +544,10 @@ button:hover {
 
 @keyframes move-bg {
   0% {
-    background-position: 30% 0%;
+    background-position: 30% 70%;
   }
   40% {
-    background-position: 100% 100%;
+    background-position: 0% 100%;
   }
   50% {
     background-position: 50% 75%;
@@ -576,10 +580,10 @@ button:hover {
 
 @-webkit-keyframes move-bg-desktop {
   0% {
-    background-position: 30% 30%;
+    background-position: 30% 70%;
   }
   25% {
-    background-position: 25% 100%;
+    background-position: 0% 100%;
   }
   50% {
     background-position: 100% 75%;
@@ -594,10 +598,10 @@ button:hover {
 
 @keyframes move-bg-desktop {
   0% {
-    background-position: 30% 30%;
+    background-position: 30% 70%;
   }
   25% {
-    background-position: 25% 100%;
+    background-position: 0% 100%;
   }
   50% {
     background-position: 100% 75%;

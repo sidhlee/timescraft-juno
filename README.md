@@ -94,6 +94,14 @@ $('.modal').addClass('show').addClass('warning').addClass('slide-down');
 $('.modal').addClass('show warning slide-down');
 ```
 
+### .hide() vs .addClass('hidden')
+
+jQuery provides .hide() and .show() but you could achieve the same effect with adding and removing 'hidden' class with some added advantages:
+
+- Making adjustments to CSS becomes much easier with 'hidden' class since you don't have to go to your js file to show your element (especially at the later stage of development.
+- You can set the initial 'hidden' state with class, but if you were to do it with `.hide()` the element will only be hidden after the script is loaded.
+- It's generally better to keep to presentation side of the things within HTML and CSS as much as possible, and only use js when you can't do it with pure CSS.
+
 ## Questions
 
 ### OOP vs FP

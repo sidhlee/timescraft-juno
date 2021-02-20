@@ -97,12 +97,22 @@ $('.btn-again').on('click', handleAgainButtonClick);
 $('.btn-main').on('click', handleMainButtonClick);
 
 //=====================================
+// PWA worker registration
+//=====================================
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('../sw.js').then(() => {
+      console.log('Service Worker Registered');
+    });
+  });
+}
+
+//=====================================
 // Run Main
 //=====================================
 
-$(document).ready(function () {
-  goTo('start');
-});
+goTo('start');
 
 //TODO: add stats menu
 //TODO: menu button only works on second click when game is restarted after clicking on "Main"
