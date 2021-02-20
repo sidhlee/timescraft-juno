@@ -311,7 +311,10 @@ button {
 }
 
 .menu .menu-content .menu-buttons .btn {
+  -ms-grid-column-align: center;
+      justify-self: center;
   width: 100%;
+  max-width: 300px;
 }
 
 .backdrop {
@@ -512,10 +515,10 @@ button {
 
 @media (min-width: 700px) {
   .app.parallax {
-    background-size: 500%;
+    background-size: 350%;
     background-repeat: no-repeat;
-    -webkit-animation: move-bg-desktop 100s alternate infinite linear;
-            animation: move-bg-desktop 100s alternate infinite linear;
+    -webkit-animation: move-bg-desktop 120s alternate infinite linear;
+            animation: move-bg-desktop 120s alternate infinite linear;
   }
 }
 
