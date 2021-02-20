@@ -1,4 +1,8 @@
-import state, { clearSavedState, resetPlayState } from './js/state.js';
+import state, {
+  clearSavedState,
+  resetPlayState,
+  resetState,
+} from './js/state.js';
 import { startQuiz, evaluateAnswer, setNextQuestion } from './js/quiz.js';
 import { goTo } from './js/router.js';
 import {
@@ -57,6 +61,7 @@ async function handleResetButtonClick() {
 
 async function handleConfirmResetButtonClick() {
   clearSavedState();
+  resetState();
   await showResetMessage();
   handleMainButtonClick();
 }
@@ -91,11 +96,9 @@ $('.btn-confirm-no').on('click', handleCancelResetButtonClick);
 $('.btn-again').on('click', handleAgainButtonClick);
 $('.btn-main').on('click', handleMainButtonClick);
 
-// TODO: open menu modal on menu button click
-// -> pauses game while open
-// menu items: Try again, Main, Reset Score, Sound Off/On
-
 //=====================================
 // Run Main
 //=====================================
 goTo('start');
+
+//TODO: add stats menu button

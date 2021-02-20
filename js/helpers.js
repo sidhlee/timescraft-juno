@@ -114,7 +114,6 @@ export async function showResetMessage() {
   $('.menu-main').addClass('hidden');
   $('.reset-confirm').addClass('hidden');
   $('.reset-message').removeClass('hidden');
-  updateDashboard();
   await sleep(2000);
   $('.reset-message').addClass('hidden');
 }

@@ -12,7 +12,7 @@ const difficultyArrays = [
 
 const TABLES = getTables(difficultyArrays);
 
-const state = {
+const initialState = {
   tables: TABLES,
   currentIndex: 0,
   currentTable: 2,
@@ -23,6 +23,10 @@ const state = {
   score: 0,
   level: 1,
   isMenuOpen: false,
+};
+
+const state = {
+  ...initialState,
 };
 
 export function setState(newState) {
@@ -80,6 +84,7 @@ export function saveState() {
 }
 
 export function loadState() {
+  console.log('loadState');
   savedStates.forEach((s) => {
     const dataString = window.localStorage.getItem(s);
     if (dataString) {
@@ -95,5 +100,5 @@ export function clearSavedState() {
 }
 
 export function resetState() {
-  setState(state);
+  setState({ ...initialState });
 }
