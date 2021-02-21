@@ -46,7 +46,6 @@ export function loadSound() {
   const hitSound = new Howl({
     src: ['/assets/audio/hit.mp3', '/assets/audio/hit.webm'],
     volume: 0.2,
-    html5: true,
   });
   const openingMusic = new Howl({
     src: ['/assets/audio/Minecraft.mp3'],
