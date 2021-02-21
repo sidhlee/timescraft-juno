@@ -101,6 +101,7 @@ export function updateDashboard() {
 export function openMenu() {
   pauseTimer();
   $('.menu').removeClass('hidden');
+  $('.menu-main').removeClass('hidden');
   $('.reset-confirm').addClass('hidden');
   $('.reset-message').addClass('hidden');
   $('.menu-btn').addClass('hidden');

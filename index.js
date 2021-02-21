@@ -50,11 +50,7 @@ function handleMainButtonClick() {
 }
 
 function handleMenuButtonClick() {
-  if (state.isMenuOpen) {
-    closeMenu();
-  } else {
-    openMenu();
-  }
+  openMenu();
 }
 
 async function handleResetButtonClick() {
@@ -63,8 +59,8 @@ async function handleResetButtonClick() {
 
 async function handleConfirmResetButtonClick() {
   clearSavedState();
-  resetState();
   await showResetMessage();
+  resetState();
   handleMainButtonClick();
 }
 
