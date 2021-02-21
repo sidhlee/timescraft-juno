@@ -116,4 +116,3 @@ goTo('start');
 
 //TODO: add stats menu
 //TODO: fix sound coming out late on android
-//TODO: fix Level up message not animating after first time (ios)

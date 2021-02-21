@@ -102,18 +102,86 @@ jQuery provides .hide() and .show() but you could achieve the same effect with a
 - You can set the initial 'hidden' state with class, but if you were to do it with `.hide()` the element will only be hidden after the script is loaded.
 - It's generally better to keep to presentation side of the things within HTML and CSS as much as possible, and only use js when you can't do it with pure CSS.
 
-### iOS support
+### Safari & iOS support
 
-If it works with browser, chances are it will work on Android as well. It is almost always iOS that breaks your CSS in unexpected way. Therefore:
+If it works with Chrome/Firefox, chances are it will work on Android as well. It is almost always iOS/Safari that breaks your CSS in unexpected way. Therefore:
 
-- Dev with old iPhone
+- Dev with old iPhone + Desktop Safari
 
   - connect iPhone to Mac via usb
   - go to settings(mac) > sharing > internet sharing to connect to your iPhone and set computer name for mac.
   - open safari from iPhone and go to `COMPUTER_NAME.local:PORT`
 
 - Stick to flex as much as possible.
-  - far too many unexpected behavior from using grid in iOS
+  - far too many unexpected behavior from using grid in Safari
+
+### Sometimes it's not Safari
+
+There was this bug only in Safari where class animation is not getting applied after first time (was working fine in other browsers.), but it turned out that I was removing wrong className on `animationend` and that Chrome and Firefox still applies animation even when the same className is added to the existing one. Maybe they are diffing the whole classList array and reapplies the entire classes when it gets updates.
+
+`index.js`
+
+```js
+function fix() {
+  const beginFix = () => {
+    setState({
+      currentIndex: 7,
+    });
+    setCurrentQuestion();
+    goTo('play');
+  };
+
+  $('.btn-again').off('click', handleAgainButtonClick).on('click', beginFix);
+  goTo('results');
+}
+
+fix();
+```
+
+`results.js`
+
+```js
+export function showLevelUpMessage() {
+  console.log('showLevelUpMessage');
+  console.log('Before:', $('.levelup-img')[0].classList.toString());
+  $('.levelup-img')
+    .removeClass('hidden')
+    .one('animationend', function () {
+      console.log('levelup animationend');
+      $(this).removeClass(
+        'animate__animated **animate__zoomInUp** animate__delay-1s animate__faster'
+      );
+      $('.clear-img')
+        .one('animationend', function () {
+          console.log('clear animationend');
+          $(this)
+            .removeClass('animate__animated animate__fadeOutUp')
+            .css('opacity', 0); // not using 'hidden' because we want the container to keep its height.
+        })
+        .addClass('animate__animated animate__fadeOutUp');
+    })
+    .addClass(
+      'animate__animated animate__zoomInDown animate__delay-1s animate__faster'
+    );
+  console.log('After: ', $('.levelup-img')[0].classList.toString());
+}
+```
+
+Safari Dev Console
+
+```bash
+[Log] showLevelUpMessage (results.js, line 95)
+[Log] Before: – "levelup-img hidden" (results.js, line 96)
+[Log] After:  – "levelup-img animate__animated animate__zoomInDown animate__delay-1s animate__faster" (results.js, line 116)
+[Warning] HTML5 Audio pool exhausted, returning potentially locked audio object. (howler.min.js, line 2)
+[Log] Service Worker Registered (index.js, line 112)
+[Log] levelup animationend (results.js, line 100)
+[Log] clear animationend (results.js, line 106)
+[Log] showLevelUpMessage (results.js, line 95)
+[Log] Before: – "levelup-img animate__zoomInDown hidden"  (results.js, line 96) #animate__zoomInDown is supposed to be removed from the last call!
+[Log] After:  – "levelup-img animate__zoomInDown animate__animated animate__delay-1s animate__faster" (results.js, line 116)
+
+```
 
 ## Questions
 

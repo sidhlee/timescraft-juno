@@ -96,7 +96,7 @@ export function showLevelUpMessage() {
     .removeClass('hidden')
     .one('animationend', function () {
       $(this).removeClass(
-        'animate__animated animate__zoomInUp animate__delay-1s animate__faster'
+        'animate__animated animate__zoomInDown animate__delay-1s animate__faster'
       );
       $('.clear-img')
         .one('animationend', function () {
