@@ -115,4 +115,5 @@ if ('serviceWorker' in navigator) {
 goTo('start');
 
 //TODO: add stats menu
-//TODO: menu button only works on second click when game is restarted after clicking on "Main"
+//TODO: fix sound coming out late on android
+//TODO: get PWA & favicon working (with parcel)
