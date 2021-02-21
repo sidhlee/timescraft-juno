@@ -102,6 +102,19 @@ jQuery provides .hide() and .show() but you could achieve the same effect with a
 - You can set the initial 'hidden' state with class, but if you were to do it with `.hide()` the element will only be hidden after the script is loaded.
 - It's generally better to keep to presentation side of the things within HTML and CSS as much as possible, and only use js when you can't do it with pure CSS.
 
+### iOS support
+
+If it works with browser, chances are it will work on Android as well. It is almost always iOS that breaks your CSS in unexpected way. Therefore:
+
+- Dev with old iPhone
+
+  - connect iPhone to Mac via usb
+  - go to settings(mac) > sharing > internet sharing to connect to your iPhone and set computer name for mac.
+  - open safari from iPhone and go to `COMPUTER_NAME.local:PORT`
+
+- Stick to flex as much as possible.
+  - far too many unexpected behavior from using grid in iOS
+
 ## Questions
 
 ### OOP vs FP

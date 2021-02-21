@@ -116,4 +116,4 @@ goTo('start');
 
 //TODO: add stats menu
 //TODO: fix sound coming out late on android
-//TODO: get PWA & favicon working (with parcel)
+//TODO: fix Level up message not animating after first time (ios)

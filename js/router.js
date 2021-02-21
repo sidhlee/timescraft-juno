@@ -44,6 +44,7 @@ function goToPlay() {
 function goToResults() {
   $('.app').addClass('parallax');
 
+  $('.levelup-img').addClass('hidden');
   $('.sc-start').addClass('hidden');
   $('.sc-play').addClass('hidden');
   $('.menu-btn').addClass('hidden');
