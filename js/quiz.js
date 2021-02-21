@@ -42,7 +42,7 @@ export function setCurrentQuestion() {
   resetTimer();
   updateHud();
 
-  if (state.currentIndex >= state.currentQuestions.length) {
+  if (state.currentIndex >= state.currentQuestions.length && state.life > 0) {
     return goTo('results');
   }
   if (state.life <= 0) {
