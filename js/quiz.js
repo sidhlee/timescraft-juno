@@ -116,16 +116,19 @@ export function showQuestion(question) {
   // animate mob
   $('.mob > img')
     .attr('src', src)
-    .parent('.mob')
-    .one('animationend', function (e) {
-      e.stopPropagation();
-      $(this).removeClass(
-        'animate__animated animate__slideInLeft animate__faster'
-      );
-    })
-    .removeClass('mob-sm mob-md mob-lg mob-xl')
-    .addClass(`mob-${size}`)
-    .addClass('animate__animated animate__slideInLeft animate__faster');
+    .one('load', function () {
+      $('.mob')
+        .one('animationend', function (e) {
+          e.stopPropagation();
+          $(this).removeClass(
+            'animate__animated animate__slideInLeft animate__faster'
+          );
+        })
+        .css('opacity', 1)
+        .removeClass('mob-sm mob-md mob-lg mob-xl')
+        .addClass(`mob-${size}`)
+        .addClass('animate__animated animate__slideInLeft animate__faster');
+    });
 
   // animate bubble
 
@@ -197,6 +200,7 @@ async function showPassSequence(clickedButtonElement) {
   markCorrectAnswer(clickedButtonElement);
   await animate('.mob', 'animate__animated animate__shakeX animate__fast');
   await animate('.mob', 'animate__animated animate__fadeOut animate__faster');
+  $('.mob').css('opacity', 0); // keep hiding mob after animation classes are removed
 }
 
 //=====================================

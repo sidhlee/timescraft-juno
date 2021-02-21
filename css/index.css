@@ -124,6 +124,7 @@
 }
 
 html {
+  height: 100%;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   font-size: 112.5%;
@@ -155,10 +156,10 @@ html {
 }
 
 body {
+  height: 100%;
   margin: 0;
   font-family: 'VT323', monospace;
   color: var(--text-main);
-  height: 100vh;
 }
 
 /* ======================================
@@ -357,17 +358,24 @@ button:hover {
   right: 0;
   bottom: 0;
   left: 0;
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-rows: 1fr auto 2fr;
-      grid-template-rows: 1fr auto 2fr;
-  justify-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .menu .menu-content {
-  -ms-grid-row: 2;
-  -ms-grid-row-span: 1;
-  grid-row: 2 / 3;
+  -webkit-transform: translateY(-10%);
+          transform: translateY(-10%);
   width: 90%;
   max-width: 800px;
 }
@@ -619,6 +627,7 @@ button:hover {
 ** ==================================== */
 /* Start Screen */
 .sc-start {
+  height: 100%;
   display: -ms-grid;
   display: grid;
   place-items: center;
@@ -697,41 +706,41 @@ button:hover {
 
 /* Play Screen */
 .sc-play {
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-rows: var(--header-height-mobile) 1fr 4rem 30vh;
-      grid-template-rows: var(--header-height-mobile) 1fr 4rem 30vh;
-}
-
-@media (min-width: 700px) {
-  .sc-play {
-    -ms-grid-rows: 0.4fr 1.5fr 4rem 200px;
-        grid-template-rows: 0.4fr 1.5fr 4rem 200px;
-  }
-}
-
-@media (min-width: 1200px) {
-  .sc-play {
-    -ms-grid-rows: var(--header-height-desktop) 1.5fr 4rem 200px;
-        grid-template-rows: var(--header-height-desktop) 1.5fr 4rem 200px;
-  }
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .sc-play .header {
-  place-self: center;
-  -ms-grid-row: 1;
-  -ms-grid-row-span: 1;
-  grid-row: 1 / 2;
-  width: 70%;
-  height: 100%;
+  width: 100%;
+  height: var(--header-height-mobile);
 }
 
 .sc-play .header .logo {
-  height: 100%;
+  width: 70%;
+  min-width: 200px;
+  margin: auto;
 }
 
 .sc-play .header .logo img {
   margin: auto;
+}
+
+@media (min-width: 1200px) {
+  .sc-play .header {
+    height: var(--header-height-desktop);
+  }
 }
 
 .sc-play .question {
@@ -790,8 +799,6 @@ button:hover {
   height: 180%;
   width: 180%;
   position: relative;
-  right: 50%;
-  top: 30%;
 }
 
 .sc-play .question .speech-bubble {
@@ -807,6 +814,7 @@ button:hover {
 }
 
 .sc-play .hud {
+  width: 100%;
   z-index: 200;
   --heart-size: 32px;
   display: -ms-grid;
@@ -815,7 +823,6 @@ button:hover {
   -ms-grid-columns: auto 100px;
       grid-template-columns: auto 100px;
       grid-template-areas: 'life time' 'progress progress';
-  height: 100%;
 }
 
 .sc-play .hud__life {
@@ -863,10 +870,29 @@ button:hover {
   -ms-grid-column: 1;
   -ms-grid-column-span: 2;
   grid-area: progress;
+  width: 100%;
+  max-width: 400px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.sc-play .hud__progress .exp {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  max-height: 15px;
+}
+
+.sc-play .hud__progress .exp img {
+  -o-object-fit: fill;
+     object-fit: fill;
 }
 
 .sc-play .answer-buttons {
   z-index: 250;
+  width: 100%;
+  height: 30%;
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: 1fr 1fr;
@@ -886,13 +912,20 @@ button:hover {
   left: 0;
   padding-left: 8vw;
   padding-right: 8vw;
-  display: -ms-grid;
-  display: grid;
-  place-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .overlay .overlay-content {
   width: 100%;
+  max-width: 400px;
   height: 100%;
   max-height: 1500px;
   margin: 0 auto;
@@ -903,14 +936,13 @@ button:hover {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 @media (min-width: 700px) {
   .overlay .overlay-content {
-    max-width: 400px;
     max-height: 800px;
   }
 }
@@ -929,21 +961,16 @@ button:hover {
   }
 }
 
-.overlay .overlay-content .results--score {
-  height: 100%;
-  display: -ms-grid;
-  display: grid;
-}
-
 .overlay .overlay-content .results--score header {
   position: relative;
-  display: -ms-grid;
-  display: grid;
-  place-items: center;
 }
 
 .overlay .overlay-content .results--score header .levelup-img {
   position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
 }
 
 .overlay .overlay-content .results--score .table-wrapper table {
@@ -966,7 +993,7 @@ button:hover {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  margin-bottom: 0.75em;
+  margin-bottom: 0.5em;
 }
 
 .overlay .overlay-content .results--score .table-wrapper table td,
@@ -988,10 +1015,16 @@ button:hover {
 }
 
 .overlay .overlay-content .results--died {
-  display: -ms-grid;
-  display: grid;
-  place-items: center;
-  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 50%;
 }
 
 .overlay .overlay-content .results--died .message {

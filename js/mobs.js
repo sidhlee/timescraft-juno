@@ -118,7 +118,7 @@ export const mobs = [
     name: 'Witch',
     difficulty: 20,
     src: '/assets/images/mobs/witch.png',
-    size: 'lg',
+    size: 'md',
   },
   {
     name: 'Polar Bear',
@@ -148,6 +148,6 @@ export const mobs = [
     name: 'Wither',
     difficulty: 25,
     src: '/assets/images/mobs/wither.png',
-    size: 'lg',
+    size: 'xl',
   },
 ];
