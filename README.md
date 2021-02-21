@@ -55,6 +55,7 @@ interval(
 ### Play Audio without user action
 
 - Use [Howler](https://github.com/goldfire/howler.js#documentation)
+- This also solves many cross-browser issues with HTML5 audio (mostly Safari).
 
 ## jQuery Tips & Gotchas
 

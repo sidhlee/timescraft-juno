@@ -116,4 +116,3 @@ goTo('start');
 
 //TODO: add stats menu
 //TODO: fix sound coming out late on android
-//TODO: fix sound only plays every other times on iPhone7
