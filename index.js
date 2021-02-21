@@ -11,6 +11,7 @@ import {
   loadSound,
   openConfirmation,
   showResetMessage,
+  disableAllButtons,
 } from './js/helpers.js';
 
 // (pre)load audio files
@@ -26,6 +27,7 @@ const { hitSound, openingMusic } = loadSound();
  */
 async function handleAnswerButtonClick(e) {
   // wait for pass/fail animation sequence to end
+  disableAllButtons();
   hitSound.play();
   await evaluateAnswer(e);
   setNextQuestion();

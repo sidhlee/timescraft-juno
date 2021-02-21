@@ -126,3 +126,11 @@ export function openConfirmation() {
   $('.menu-main').addClass('hidden');
   $('.reset-confirm').removeClass('hidden');
 }
+
+export function enableAllButtons() {
+  $('button').css('pointer-events', 'auto');
+}
+
+export function disableAllButtons() {
+  $('button').css('pointer-events', 'none');
+}

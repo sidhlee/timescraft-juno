@@ -4,6 +4,7 @@ importScripts(
 );
 
 if (workbox) {
+  workbox.setConfig({ debug: false });
   console.log('Yay! Workbox is loaded !');
   workbox.precaching.precacheAndRoute([]);
 

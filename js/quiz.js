@@ -8,8 +8,9 @@ import {
   sleep,
   getMob,
   updateHud,
+  enableAllButtons,
 } from './helpers.js';
-import { clearTimer, pauseTimer, resetTimer, startTimer } from './timer.js';
+import { pauseTimer, resetTimer, startTimer } from './timer.js';
 
 //=====================================
 // Main
@@ -54,9 +55,9 @@ export function setCurrentQuestion() {
   const answers = getAnswers(questions[i]);
 
   showAnswers(answers);
+  enableAllButtons();
 
   showQuestion(questions[i]);
-  enableAllAnswers();
 }
 
 export function setNextQuestion() {
@@ -236,10 +237,6 @@ export function getWrongAnswers(answer, size = 3) {
     }));
 
   return _shuffle(wrongAnswers).slice(0, size);
-}
-
-export function enableAllAnswers() {
-  $('button').removeAttr('disabled');
 }
 
 export function resetAnswers() {

@@ -1,8 +1,9 @@
 import state, { loadState } from './state.js';
 import { updateResults, showLevelUpMessage } from './results.js';
-import { updateDashboard } from './helpers.js';
+import { enableAllButtons, updateDashboard } from './helpers.js';
 
 export function goTo(to) {
+  enableAllButtons();
   switch (to) {
     case 'start':
       return goToStart();
