@@ -489,14 +489,17 @@ button:hover {
 /* ======================================
 ** Animation
 ** ==================================== */
-.flash-warning:after {
-  content: '';
+.overlay-warning {
   position: fixed;
-  z-index: 1000;
+  z-index: 10000;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
+  pointer-events: none;
+}
+
+.flash-warning {
   -webkit-animation: warn 300ms linear;
           animation: warn 300ms linear;
 }

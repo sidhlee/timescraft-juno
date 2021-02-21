@@ -28,7 +28,11 @@ export function markCorrectAnswer(clickedButtonElement) {
 }
 
 export function flashWarning() {
-  animate('.app', 'flash-warning');
+  $('.overlay-warning')
+    .one('animationend', function () {
+      $(this).removeClass('flash-warning');
+    })
+    .addClass('flash-warning');
 }
 
 export async function sleep(ms) {
