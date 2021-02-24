@@ -59,63 +59,6 @@ interval(
 - Use [Howler](https://github.com/goldfire/howler.js#documentation)
 - This also solves many cross-browser issues with HTML5 audio (mostly Safari).
 
-## jQuery Tips & Gotchas
-
-### `.on()` vs `.one()`
-
-jQuery allows multiple handlers on the same element.
-Unless manually removed with `.off()`, all attached event handler will be called in the same order that they were added.
-<br/>
-In the follow example, additional `endCallback` will be registered to `animationend` event every time `showModal` is called. As a result, endCallback will run as many times as showModal has been called.
-
-```js
-function showModal() {
-  $('.modal')
-    .on('animationend', endCallback)
-    .addClass('animate__animated animate__slideInLeft');
-}
-```
-
-So typically, you would want to use `.one()` with `animationend`
-
-```js
-function showModal() {
-  $('.modal')
-    // endCallback will be .off() -ed after it gets invoked.
-    .one('animationend', endCallback)
-    .addClass('animate__animated animate__slideInLeft');
-}
-```
-
-But you can do the same thing by passing `{once: true}` option to `addEventListener()`  
-(One less reason to use jQuery 🤷 )
-
-```js
-function showModal() {
-  const modal = document.querySelector('.modal');
-  modal.addEventListener('animationend', endCallback, { once: true });
-  modal.classList.add('animate__animated animate__slideInLeft');
-}
-```
-
-### Adding or removing multiple classes
-
-```js
-$('.modal').addClass('show').addClass('warning').addClass('slide-down');
-
-// would be same as:
-
-$('.modal').addClass('show warning slide-down');
-```
-
-### .hide() vs .addClass('hidden')
-
-jQuery provides .hide() and .show() but you could achieve the same effect with adding and removing 'hidden' class with some added advantages:
-
-- Making adjustments to CSS becomes much easier with 'hidden' class since you don't have to go to your js file to show your element (especially at the later stage of development.
-- You can set the initial 'hidden' state with class, but if you were to do it with `.hide()` the element will only be hidden after the script is loaded.
-- It's generally better to keep to presentation side of the things within HTML and CSS as much as possible, and only use js when you can't do it with pure CSS.
-
 ### Safari & iOS support
 
 If it works with Chrome/Firefox, chances are it will work on Android as well. It is almost always iOS/Safari that breaks your CSS in unexpected way. Therefore:
@@ -218,6 +161,63 @@ Workaround: wrap min | max function inside calc()
 ```scss
 margin: calc(min(0.5rem, 2vw));
 ```
+
+## jQuery Tips & Gotchas
+
+### `.on()` vs `.one()`
+
+jQuery allows multiple handlers on the same element.
+Unless manually removed with `.off()`, all attached event handler will be called in the same order that they were added.
+<br/>
+In the follow example, additional `endCallback` will be registered to `animationend` event every time `showModal` is called. As a result, endCallback will run as many times as showModal has been called.
+
+```js
+function showModal() {
+  $('.modal')
+    .on('animationend', endCallback)
+    .addClass('animate__animated animate__slideInLeft');
+}
+```
+
+So typically, you would want to use `.one()` with `animationend`
+
+```js
+function showModal() {
+  $('.modal')
+    // endCallback will be .off() -ed after it gets invoked.
+    .one('animationend', endCallback)
+    .addClass('animate__animated animate__slideInLeft');
+}
+```
+
+But you can do the same thing by passing `{once: true}` option to `addEventListener()`  
+(One less reason to use jQuery 🤷 )
+
+```js
+function showModal() {
+  const modal = document.querySelector('.modal');
+  modal.addEventListener('animationend', endCallback, { once: true });
+  modal.classList.add('animate__animated animate__slideInLeft');
+}
+```
+
+### Adding or removing multiple classes
+
+```js
+$('.modal').addClass('show').addClass('warning').addClass('slide-down');
+
+// would be same as:
+
+$('.modal').addClass('show warning slide-down');
+```
+
+### .hide() vs .addClass('hidden')
+
+jQuery provides .hide() and .show() but you could achieve the same effect with adding and removing 'hidden' class with some added advantages:
+
+- Making adjustments to CSS becomes much easier with 'hidden' class since you don't have to go to your js file to show your element (especially at the later stage of development.
+- You can set the initial 'hidden' state with class, but if you were to do it with `.hide()` the element will only be hidden after the script is loaded.
+- It's generally better to keep to presentation side of the things within HTML and CSS as much as possible, and only use js when you can't do it with pure CSS.
 
 ## Questions
 
