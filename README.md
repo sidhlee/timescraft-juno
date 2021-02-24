@@ -1,6 +1,8 @@
 # TimesCraft (for Ethan)
 
-A multiplication quiz app for my son who loves Minecraft.
+A multiplication quiz PWA for my son who is a big fan of Minecraft.
+
+- [Live Demo 🚀](https://timescraft.netlify.app/)
 
 ## What I Learned
 
@@ -80,8 +82,19 @@ So typically, you would want to use `.one()` with `animationend`
 function showModal() {
   $('.modal')
     // endCallback will be .off() -ed after it gets invoked.
-    .on('animationend', endCallback)
+    .one('animationend', endCallback)
     .addClass('animate__animated animate__slideInLeft');
+}
+```
+
+But you can do the same thing by passing `{once: true}` option to `addEventListener()`  
+(One less reason to use jQuery 🤷 )
+
+```js
+function showModal() {
+  const modal = document.querySelector('.modal');
+  modal.addEventListener('animationend', endCallback, { once: true });
+  modal.classList.add('animate__animated animate__slideInLeft');
 }
 ```
 
@@ -216,7 +229,7 @@ Here are some of the pros and cons of OOP and FP I can think of:
 - OOP allows you to organize code in more clear way.
 - FP is easier and simpler to unit-test.
 
-What are your thoughts and opinions on choosing either style specifically for this project?
+How can I decide on choosing either style depending on the project?
 
 ### jQuery vs React
 
@@ -234,4 +247,4 @@ I've encountered with the following challenges working without using React:
 
 - Also, not being able to use CSS in JS (e.g. styled-components) is a minor inconvenience, but this can be mitigated with Sass live compiler and scss modules. As the project grow, managing all the css classes and specificity manually would become a big challenge.
 
-So, can you give some example on what type of project would you go for jQuery instead of framework in real work environment (including freelancing)?
+So when should jQuery be preferred over React and vice versa?
