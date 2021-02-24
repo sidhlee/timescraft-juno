@@ -57,6 +57,7 @@ html {
 *::before,
 *::after {
   box-sizing: inherit;
+  user-select: none;
 }
 
 body {
@@ -640,7 +641,7 @@ button {
     flex-wrap: wrap;
     .btn {
       flex: 1 1 40%;
-      margin: min(0.5rem, 2vw);
+      margin: calc(min(0.5rem, 2vw));
     }
   }
 }

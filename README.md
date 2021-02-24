@@ -184,6 +184,28 @@ Safari Dev Console
 
 ```
 
+### user-select: none
+
+User-select on buttons and other element can cause unexpected error.  
+If it's game, just do this:
+
+```css
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+  user-select: none;
+}
+```
+
+### Live Sass Error: Incompatible units: 'vw' and 'rem'.
+
+Workaround: wrap min | max function inside calc()
+
+```scss
+margin: calc(min(0.5rem, 2vw));
+```
+
 ## Questions
 
 ### OOP vs FP
