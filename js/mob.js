@@ -151,3 +151,31 @@ export const mobs = [
     size: 'xl',
   },
 ];
+
+export default class Mob {
+  /**
+   * create a new mob with given difficulty
+   * @param {number} difficulty
+   */
+  constructor(difficulty) {
+    this.mob = mobs.find((mob) => mob.difficulty === difficulty);
+  }
+  show() {
+    $('.mob > img')
+      .attr('src', this.mob.src)
+      .one('load', () => {
+        const $mob = $('.mob');
+        $mob
+          .one('animationend', function (e) {
+            e.stopPropagation();
+            $mob.removeClass(
+              'animate__animated animate__slideInLeft animate__faster'
+            );
+          })
+          .css('opacity', 1)
+          .removeClass('mob-sm mob-md mob-lg mob-xl')
+          .addClass(`mob-${this.mob.size}`)
+          .addClass('animate__animated animate__slideInLeft animate__faster');
+      });
+  }
+}

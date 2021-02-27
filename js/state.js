@@ -29,12 +29,6 @@ const state = {
   ...initialState,
 };
 
-export function setState(newState) {
-  Object.assign(state, newState);
-}
-
-export default state;
-
 /**
  * Returns an array of tables
  * @param {number[][]} difficultyArrays - 2D array of difficulties
@@ -65,40 +59,79 @@ function getTables(difficultyArrays, maxTable = 9) {
   return tables;
 }
 
-export function resetPlayState() {
-  setState({
-    life: 5,
-    clearTime: 0,
-    currentIndex: 0,
-    remainingTime: 9,
-    isMenuOpen: false,
-  });
-}
-
 const savedStates = ['tables', 'score', 'level'];
 
-export function saveState() {
-  savedStates.forEach((s) => {
-    const dataString = JSON.stringify(state[s]);
-    window.localStorage.setItem(s, dataString);
-  });
-}
+const State = {
+  /** get current state */
+  get() {
+    return state;
+  },
+  get currentIndex() {
+    return state.currentIndex;
+  },
+  get life() {
+    return state.life;
+  },
+  get remainingTime() {
+    return state.remainingTime;
+  },
+  get isMenuOpen() {
+    return state.isMenuOpen;
+  },
+  get clearTime() {
+    return state.clearTime;
+  },
+  get currentQuestions() {
+    return state.currentQuestions;
+  },
+  get tables() {
+    return state.tables;
+  },
+  get level() {
+    return state.level;
+  },
+  get score() {
+    return state.score;
+  },
+  /** set new state */
+  set(newState) {
+    Object.assign(state, newState);
+  },
+  /** load state from local Storage*/
+  load() {
+    savedStates.forEach((s) => {
+      const dataString = window.localStorage.getItem(s);
+      if (dataString) {
+        State.set({ [s]: JSON.parse(dataString) });
+      }
+    });
+  },
+  /** save state into local storage */
+  save() {
+    savedStates.forEach((s) => {
+      const dataString = JSON.stringify(State[s]);
+      window.localStorage.setItem(s, dataString);
+    });
+  },
+  /** clear state data saved in localStorage */
+  clearSaved() {
+    savedStates.forEach((s) => {
+      window.localStorage.removeItem(s);
+    });
+  },
+  /** Reset state to initial state. */
+  reset() {
+    State.set({ ...initialState });
+  },
+  resetPlayState() {
+    State.set({
+      life: 5,
+      clearTime: 0,
+      currentIndex: 0,
+      remainingTime: 9,
+      isMenuOpen: false,
+    });
+  },
+};
 
-export function loadState() {
-  savedStates.forEach((s) => {
-    const dataString = window.localStorage.getItem(s);
-    if (dataString) {
-      setState({ [s]: JSON.parse(dataString) });
-    }
-  });
-}
-
-export function clearSavedState() {
-  savedStates.forEach((s) => {
-    window.localStorage.removeItem(s);
-  });
-}
-
-export function resetState() {
-  setState({ ...initialState });
-}
+export default State;

@@ -1,180 +1,88 @@
-import _shuffle from './shuffle.js';
-import state, { setState, resetPlayState } from './state.js';
+import State from './state.js';
+import Hud from './hud.js';
+import Question from './question.js';
+import Answers from './answers.js';
 import { goTo } from './router.js';
-import {
-  animate,
-  markCorrectAnswer,
-  flashWarning,
-  sleep,
-  getMob,
-  updateHud,
-  enableAllButtons,
-} from './helpers.js';
-import { pauseTimer, resetTimer, startTimer } from './timer.js';
-
-//=====================================
-// Main
-//=====================================
+import { animate, sleep, enableAllButtons } from './utils.js';
 
 /**
  * @param {number} table table selected to play
  */
-export function startQuiz(table) {
-  resetPlayState();
+function startQuiz(table) {
+  State.resetPlayState();
 
   let questions;
   if (table === undefined) {
-    questions = state.currentQuestions;
+    questions = State.currentQuestions;
   } else if (table === 'shuffle') {
-    questions = getRandomQuestions();
+    questions = Question.getRandom();
   } else {
-    questions = getQuestions({ table, shuffle: true });
+    questions = Question.get({ table, shuffle: true });
   }
-  setState({ currentQuestions: questions });
+  State.set({ currentQuestions: questions });
   setCurrentQuestion();
   goTo('play');
 }
 
-//=====================================
-// Questions
-//=====================================
+function setCurrentQuestion() {
+  Hud.resetTimer();
+  Hud.update();
 
-export function setCurrentQuestion() {
-  resetTimer();
-  updateHud();
-
-  if (state.currentIndex >= state.currentQuestions.length && state.life > 0) {
+  if (State.currentIndex >= State.currentQuestions.length && State.life > 0) {
     return goTo('results');
   }
-  if (state.life <= 0) {
+  if (State.life <= 0) {
     return goTo('gameover');
   }
 
-  resetAnswers();
-  const { currentQuestions: questions, currentIndex: i } = state;
-  const answers = getAnswers(questions[i]);
+  Answers.reset();
+  const { currentQuestions: questions, currentIndex: i } = State.get();
+  const answers = Answers.get(questions[i]);
 
-  showAnswers(answers);
+  Answers.show(answers);
   enableAllButtons();
 
-  showQuestion(questions[i]);
+  Question.show(questions[i]);
 }
 
-export function setNextQuestion() {
-  setState({
-    currentIndex: state.currentIndex + 1,
+function setNextQuestion() {
+  State.set({
+    currentIndex: State.currentIndex + 1,
   });
   setCurrentQuestion();
 }
 
-/**
- * Select questions from table and return them.
- * @param {{length: number, shuffle: boolean, table: number}} param0
- * @returns {{ table: number, by: number, difficulty: number, tried:number, lastTried: Date, lastCorrect: Date }[]}
- */
-export function getQuestions(
-  { length, shuffle, table } = { length: 9, shuffle: false }
-) {
-  let questions;
-  // convert table into zero-based index for tables array
-  const tableIndex = table - 2;
-
-  if (table < 2 || table > 9) {
-    throw new Error('invalid table');
-  }
-
-  if (table) {
-    questions = state.tables[tableIndex];
-    setState({ currentTable: table });
-  } else {
-    const randomTableIndex = Math.floor(Math.random() * 8);
-    questions = state.tables[randomTableIndex];
-    setState({ currentTable: randomTableIndex });
-  }
-
-  if (shuffle) {
-    questions = _shuffle(questions);
-  }
-
-  if (length > 0) {
-    questions = questions.slice(0, length);
-  }
-
-  return questions;
-}
-
-function getRandomQuestions() {
-  const allQuestions = state.tables.flat();
-  const shuffledQuestions = _shuffle(allQuestions);
-  return shuffledQuestions.slice(0, 9);
-}
-
-export function showQuestion(question) {
-  const { table, by, difficulty } = question;
-  const { src, size } = getMob(difficulty);
-
-  const questionString = `${table} x ${by} = ?`;
-  // animate mob
-  $('.mob > img')
-    .attr('src', src)
-    .one('load', function () {
-      $('.mob')
-        .one('animationend', function (e) {
-          e.stopPropagation();
-          $(this).removeClass(
-            'animate__animated animate__slideInLeft animate__faster'
-          );
-        })
-        .css('opacity', 1)
-        .removeClass('mob-sm mob-md mob-lg mob-xl')
-        .addClass(`mob-${size}`)
-        .addClass('animate__animated animate__slideInLeft animate__faster');
-    });
-
-  // animate bubble
-
-  $('.speech-bubble > p')
-    .text(questionString)
-    .parent('.speech-bubble')
-    .one('animationend', function (e) {
-      e.stopPropagation();
-      $(this).removeClass('animate__animated animate__zoomIn animate__faster');
-      // start countdown after question is displayed
-      startTimer();
-    })
-    .removeClass('hidden')
-    .addClass('animate__animated animate__zoomIn animate__faster');
-}
-
-export async function failQuestion(clickedButtonElement) {
-  await showFailSequence(clickedButtonElement);
+async function failQuestion() {
+  await showFailSequence();
   setFailState();
 }
 
-async function passQuestion(clickedButtonElement) {
-  await showPassSequence(clickedButtonElement);
+async function passQuestion() {
+  await showPassSequence();
   setPassState();
 }
 
 function setFailState() {
-  const updatedQuestions = state.currentQuestions.slice();
-  const question = state.currentQuestions[state.currentIndex];
-  updatedQuestions[state.currentIndex] = {
-    ...question,
-    tried: question.tried + 1,
+  const { currentQuestions, currentIndex, life } = State.get();
+  const updatedQuestions = currentQuestions.slice();
+  const currentQuestion = currentQuestions[currentIndex];
+  updatedQuestions[currentIndex] = {
+    ...currentQuestion,
+    tried: currentQuestion.tried + 1,
     lastTried: new Date().getTime(),
   };
 
-  setState({
+  State.set({
     currentQuestions: updatedQuestions,
-    life: state.life - 1,
+    life: life - 1,
   });
 }
 
 function setPassState() {
-  const updatedQuestions = state.currentQuestions.slice();
-  const question = state.currentQuestions[state.currentIndex];
-  updatedQuestions[state.currentIndex] = {
+  const { currentQuestions, currentIndex } = State.get();
+  const updatedQuestions = currentQuestions.slice();
+  const question = currentQuestions[currentIndex];
+  updatedQuestions[currentIndex] = {
     ...question,
     tried: question.tried + 1,
     correct: question.correct + 1,
@@ -182,13 +90,13 @@ function setPassState() {
     lastCorrect: new Date().getTime(),
   };
 
-  setState({
+  State.set({
     currentQuestions: updatedQuestions,
   });
 }
 
 async function showFailSequence() {
-  markCorrectAnswer();
+  Answers.markCorrect();
   flashWarning();
   await animate(
     '.hud__life',
@@ -197,86 +105,59 @@ async function showFailSequence() {
   await sleep(1000);
 }
 
-async function showPassSequence(clickedButtonElement) {
-  markCorrectAnswer(clickedButtonElement);
+async function showPassSequence() {
+  Answers.markCorrect();
   await animate('.mob', 'animate__animated animate__shakeX animate__fast');
   await animate('.mob', 'animate__animated animate__fadeOut animate__faster');
   $('.mob').css('opacity', 0); // keep hiding mob after animation classes are removed
-}
-
-//=====================================
-// Answers
-//=====================================
-
-export function getAnswers(question, size = 4) {
-  const { table, by } = question;
-  const correctAnswer = table * by;
-  const wrongAnswers = getWrongAnswers(question, size - 1);
-  const answers = wrongAnswers.concat({ text: correctAnswer, correct: true });
-
-  return _shuffle(answers);
-}
-
-export function showAnswers(answers) {
-  $('.answer-buttons')
-    .children()
-    .each((i, button) => {
-      $(button).text(answers[i].text);
-      if (answers[i].correct) {
-        $(button).attr('correct', true);
-      }
-    });
-}
-
-export function getWrongAnswers(answer, size = 3) {
-  const wrongAnswers = [2, 3, 4, 5, 6, 7, 8, 9]
-    .filter((by) => by !== answer.by)
-    .map((by) => ({
-      text: answer.table * by,
-      correct: false,
-    }));
-
-  return _shuffle(wrongAnswers).slice(0, size);
-}
-
-export function resetAnswers() {
-  $('.answer-buttons')
-    .children()
-    .each((i, btn) => {
-      $(btn)
-        .removeClass('btn-success btn-danger btn-correct')
-        .addClass('btn-outline-secondary')
-        .removeAttr('correct');
-    });
 }
 
 /**
  *
  * @param {object} e click event from an answer button
  */
-export async function evaluateAnswer(e) {
-  pauseTimer();
-
-  const { currentQuestions, currentIndex } = state;
+async function evaluateAnswer(clickedButtonElem) {
+  Hud.pauseTimer();
+  const { currentQuestions, currentIndex } = State.get();
   const updatedCurrentQuestions = currentQuestions.slice();
 
   // save selected answer
-  updatedCurrentQuestions[currentIndex].lastAnswer = +e.target.textContent;
+  updatedCurrentQuestions[
+    currentIndex
+  ].lastAnswer = +clickedButtonElem.textContent;
 
   // Update lastTried state
   const lastTried = new Date().getTime();
   updatedCurrentQuestions[currentIndex].lastTried = lastTried;
 
-  const correct = $(e.target).attr('correct');
+  const correct = $(clickedButtonElem).attr('correct');
 
   if (correct) {
     updatedCurrentQuestions[currentIndex].lastCorrect = lastTried;
-    await passQuestion(e.target);
+    await passQuestion();
   } else {
-    await failQuestion(e.target);
+    await failQuestion();
   }
 
-  setState({
+  State.set({
     currentQuestions: updatedCurrentQuestions,
   });
 }
+
+function flashWarning() {
+  $('.overlay-warning')
+    .one('animationend', function () {
+      $(this).removeClass('flash-warning');
+    })
+    .addClass('flash-warning');
+}
+
+const Quiz = {
+  start: startQuiz,
+  setCurrentQuestion,
+  setNextQuestion,
+  evaluateAnswer,
+  failQuestion,
+};
+
+export default Quiz;

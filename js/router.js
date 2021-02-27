@@ -1,6 +1,6 @@
-import state, { loadState } from './state.js';
+import State from './state.js';
 import { updateResults, showLevelUpMessage } from './results.js';
-import { enableAllButtons, updateDashboard } from './helpers.js';
+import { enableAllButtons, updateDashboard } from './utils.js';
 
 export function goTo(to) {
   enableAllButtons();
@@ -23,8 +23,7 @@ function goToStart() {
   $('.sc-play').addClass('hidden');
   $('.overlay').addClass('hidden');
   $('.menu').addClass('hidden');
-
-  loadState();
+  State.load();
   updateDashboard();
 
   $('.app').addClass('parallax');

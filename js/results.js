@@ -1,7 +1,7 @@
-import state, { saveState, setState } from './state.js';
+import State from './state.js';
 
-function getResults(state) {
-  const { clearTime, life, currentQuestions, level } = state;
+function getResults() {
+  const { clearTime, life, currentQuestions, level } = State.get();
   const correct = life + 3;
   const missed = 5 - life;
   const accuracy = Math.round((correct * 100) / 8);
@@ -66,7 +66,7 @@ export function updateResults() {
     nextLevel,
     isUp,
     levelUpBy,
-  } = getResults(state);
+  } = getResults();
 
   // show clear-img in case hidden by levelup message
   $('.clear-img').css('opacity', 1);
@@ -79,12 +79,12 @@ export function updateResults() {
   $('.results--score__total span').text(total);
   $('.results--score__next-level span').text(nextLevel);
 
-  setState({
-    level: state.level + levelUpBy,
-    score: state.score + total,
+  State.set({
+    level: State.level + levelUpBy,
+    score: State.score + total,
   });
 
-  saveState();
+  State.save();
 
   return {
     isUp,

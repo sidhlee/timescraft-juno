@@ -12,7 +12,7 @@ describe('getWrongAnswers', () => {
   it('should not get negative values', () => {
     const wrongAnswers = getWrongAnswers({ table: 2, by: 2 });
     wrongAnswers.forEach((a) => {
-      expect(+a.text).toBeGreaterThan(0);
+      expect(+a.value).toBeGreaterThan(0);
     });
   });
 
@@ -20,7 +20,9 @@ describe('getWrongAnswers', () => {
     const wrongAnswers = getWrongAnswers({ table: 7, by: 4 });
 
     wrongAnswers.forEach((answer) => {
-      const duplicatedAnswer = wrongAnswers.find((a) => a.text === answer.text);
+      const duplicatedAnswer = wrongAnswers.find(
+        (a) => a.value === answer.value
+      );
       expect(duplicatedAnswer).toBeUndefined;
     });
   });
