@@ -30,7 +30,7 @@ const state = {
 };
 
 /**
- * Returns an array of tables
+ * Returns an array of tables (= array of questions)
  * @param {number[][]} difficultyArrays - 2D array of difficulties
  */
 function getTables(difficultyArrays, maxTable = 9) {
@@ -40,6 +40,7 @@ function getTables(difficultyArrays, maxTable = 9) {
     for (let by = 2; by <= maxTable; by++) {
       const tableIndex = table - 2;
       const byIndex = by - 2;
+      // question schema
       const question = {
         table,
         by,
