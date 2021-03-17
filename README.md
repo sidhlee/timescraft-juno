@@ -3,7 +3,7 @@
 This is a fork for submissions at Juno College.  
 Find original repo [here](https://github.com/toypiano/timescraft)
 
-- [Live Demo 🚀](https://timescraft.netlify.app/)
+- [Live Demo 🚀](https://timescraft-juno.netlify.app/)
 
 ## Fork Summary
 
