@@ -175,7 +175,7 @@ button {
 .app {
   height: 100%;
   overflow: hidden;
-  background-image: url('/assets/images/bg.png');
+  background-image: url('./assets/images/bg.png');
   background-size: cover;
   background-position: 30%;
 }
@@ -316,7 +316,7 @@ button {
   position: relative;
   margin: 0;
   display: inline-block;
-  background-image: url('/assets/images/button-center.png');
+  background-image: url('./assets/images/button-center.png');
   background-repeat: repeat;
   padding: 0 0.25em;
   text-align: center;

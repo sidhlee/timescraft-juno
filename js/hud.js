@@ -8,9 +8,9 @@ const $timeSpan = $('.hud__time > span');
 function showProgress() {
   $progress.children().each((i, div) => {
     if (i < State.currentIndex) {
-      $(div).find('img').attr('src', '/assets/images/exp-full.png');
+      $(div).find('img').attr('src', './assets/images/exp-full.png');
     } else {
-      $(div).find('img').attr('src', '/assets/images/exp-empty.png');
+      $(div).find('img').attr('src', './assets/images/exp-empty.png');
     }
   });
 }
@@ -18,9 +18,9 @@ function showProgress() {
 function showLife() {
   $life.children().each((i, div) => {
     if (i > State.life - 1) {
-      $(div).find('img').attr('src', '/assets/images/heart-gray.png');
+      $(div).find('img').attr('src', './assets/images/heart-gray.png');
     } else {
-      $(div).find('img').attr('src', '/assets/images/heart.png');
+      $(div).find('img').attr('src', './assets/images/heart.png');
     }
   });
 }
